@@ -47,9 +47,10 @@ def create_and_populate_db(
         "Department": "Department"
     })
     # Exam Schedule
-    exam_schedule_df = exam_schedule_df.rename(columns={
+    exam_schedule_df = exam_schedule_df[["Course Code","Exam Date","Exam Time","Room 1","Room 2","Room 3","Room 4"]].rename(columns={
         "Course Code": "CourseCode",
         "Exam Date": "DATE",
+        "Exam Time": "Time",
         "Room 1": "Room1",
         "Room 2": "Room2",
         "Room 3": "Room3",
@@ -58,13 +59,13 @@ def create_and_populate_db(
 
     exam_schedule_df["DATE"] = pd.to_datetime(exam_schedule_df["DATE"], errors="coerce")
 
-    exam_schedule_df = exam_schedule_df[
-        exam_schedule_df["CourseCode"].isin(courses_df["CourseCode"]) &
-        exam_schedule_df["Room1"].isin(room_capacity_df["Room"]) &
-        exam_schedule_df["Room2"].isin(room_capacity_df["Room"]) &
-        exam_schedule_df["Room3"].isin(room_capacity_df["Room"]) &
-        exam_schedule_df["Room4"].isin(room_capacity_df["Room"])
-    ]
+    # exam_schedule_df = exam_schedule_df[
+    #     exam_schedule_df["CourseCode"].isin(courses_df["CourseCode"]) &
+    #     exam_schedule_df["Room1"].isin(room_capacity_df["Room"]) &
+    #     exam_schedule_df["Room2"].isin(room_capacity_df["Room"]) &
+    #     exam_schedule_df["Room3"].isin(room_capacity_df["Room"]) &
+    #     exam_schedule_df["Room4"].isin(room_capacity_df["Room"])
+    # ]
 
     # Enrollment 
     enrollments_df = enrollments_df[["Student ID","Course Code"]]
@@ -82,6 +83,7 @@ def create_and_populate_db(
         DROP TABLE IF EXISTS Courses;
         DROP TABLE IF EXISTS Students;
         DROP TABLE IF EXISTS Rooms;
+        DROP TABLE IF EXISTS ExamSchedule;
     """)
 
     cursor.execute("PRAGMA foreign_keys = ON;")  
@@ -124,7 +126,8 @@ def create_and_populate_db(
                          
     CREATE TABLE ExamSchedule (
         CourseCode TEXT,
-        DATE DATETIME,
+        DATE TEXT,
+        TIME TEXT,
         Room1 TEXT,
         Room2 TEXT,
         Room3 TEXT,
