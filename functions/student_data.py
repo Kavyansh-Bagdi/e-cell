@@ -46,6 +46,25 @@ def create_and_populate_db(
         "Course Coordinator Email ID": "CoordinatorEmailID",
         "Department": "Department"
     })
+    # Exam Schedule
+    exam_schedule_df = exam_schedule_df.rename(columns={
+        "Course Code": "CourseCode",
+        "Exam Date": "DATE",
+        "Room 1": "Room1",
+        "Room 2": "Room2",
+        "Room 3": "Room3",
+        "Room 4": "Room4"
+    })
+
+    exam_schedule_df["DATE"] = pd.to_datetime(exam_schedule_df["DATE"], errors="coerce")
+
+    exam_schedule_df = exam_schedule_df[
+        exam_schedule_df["CourseCode"].isin(courses_df["CourseCode"]) &
+        exam_schedule_df["Room1"].isin(room_capacity_df["Room"]) &
+        exam_schedule_df["Room2"].isin(room_capacity_df["Room"]) &
+        exam_schedule_df["Room3"].isin(room_capacity_df["Room"]) &
+        exam_schedule_df["Room4"].isin(room_capacity_df["Room"])
+    ]
 
     # Enrollment 
     enrollments_df = enrollments_df[["Student ID","Course Code"]]
@@ -102,12 +121,28 @@ def create_and_populate_db(
         FOREIGN KEY (ID) REFERENCES Students(ID) ON DELETE CASCADE,
         FOREIGN KEY (CourseCode) REFERENCES Courses(CourseCode) ON DELETE CASCADE
     );
+                         
+    CREATE TABLE ExamSchedule (
+        CourseCode TEXT,
+        DATE DATETIME,
+        Room1 TEXT,
+        Room2 TEXT,
+        Room3 TEXT,
+        Room4 TEXT,
+        PRIMARY KEY (CourseCode, Room1 ,Room2 ,Room3 ,Room4 , DATE),
+        FOREIGN KEY (CourseCode) REFERENCES Courses(CourseCode) ON DELETE CASCADE,
+        FOREIGN KEY (Room1) REFERENCES Rooms(Room) ON DELETE CASCADE,
+        FOREIGN KEY (Room2) REFERENCES Rooms(Room) ON DELETE CASCADE,
+        FOREIGN KEY (Room3) REFERENCES Rooms(Room) ON DELETE CASCADE,
+        FOREIGN KEY (Room4) REFERENCES Rooms(Room) ON DELETE CASCADE
+    );
     """)
 
     students_df.to_sql("Students", connection, if_exists="append", index=False)
     room_capacity_df.to_sql("Rooms", connection, if_exists="replace", index=False)
     courses_df.to_sql("Courses", connection, if_exists="append", index=False)
     enrollments_table.to_sql("Enrollments", connection, if_exists="replace", index=False)
+    exam_schedule_df.to_sql("ExamSchedule", connection, if_exists="replace", index=False)
 
     connection.commit()
     connection.close()
