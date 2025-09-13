@@ -8,12 +8,12 @@ def create_and_populate_db(
     room_capacity = "data/room_capacity.xlsx",
     students = "data/students.xlsx"
 ):
-    students_df = pd.read_excel(students)
-    enrollments_df = pd.read_excel(enrollments)
-    room_capacity_df = pd.read_excel(room_capacity)
-    exam_schedule_df = pd.read_excel(mte)
+    students_df = pd.read_excel(students, engine="openpyxl")
+    room_capacity_df = pd.read_excel(room_capacity, engine="openpyxl")   
+    enrollments_df = pd.read_excel(enrollments, engine="openpyxl")   
+    exam_schedule_df = pd.read_excel(mte, engine="openpyxl")
 
-    
+    # Formating Student Table
     required_columns = ["Student Id", "Student Name", "Degree", "Section", "Semester", "Department"]
     students_df = students_df[required_columns]
 
@@ -24,23 +24,50 @@ def create_and_populate_db(
     
     students_df["Semester"] = students_df["Semester"].astype(int)
 
+    # Formating Rooms Table
     room_capacity_df = room_capacity_df.rename(columns={
         "Room No": "Room",
         "Seat A": "SeatA",
         "Seat B": "SeatB",
-        "Floor": "Floor"
+    })
+
+    # Courses
+    enrollments_df.columns = enrollments_df.columns.str.strip()
+
+    courses_df = enrollments_df[["Course Code", "Course Title", "Course Type", "Elective Type","Course Coordinator ID", "Course Coordinator name", "Course Coordinator Email ID","Department"]].drop_duplicates(subset=["Course Code"]) 
+
+    courses_df = courses_df.rename(columns={
+        "Course Code": "CourseCode",
+        "Course Title": "CourseTitle",
+        "Course Type": "CourseType",
+        "Elective Type": "ElectiveType",
+        "Course Coordinator ID": "CoordinatorID",
+        "Course Coordinator name": "CoordinatorName",
+        "Course Coordinator Email ID": "CoordinatorEmailID",
+        "Department": "Department"
+    })
+
+    # Enrollment 
+    enrollments_df = enrollments_df[["Student ID","Course Code"]]
+    enrollments_table = enrollments_df.rename(columns={
+        "Student ID" : "ID",
+        "Course Code" : "CourseCode"
     })
 
     connection = sqlite3.connect(db_path)
     cursor = connection.cursor()
-    cursor.execute("PRAGMA foreign_keys = ON;")
+    cursor.execute("PRAGMA foreign_keys = OFF;")  
 
     cursor.executescript("""
-    DROP TABLE IF EXISTS Enrollments;
-    DROP TABLE IF EXISTS Students;
-    DROP TABLE IF EXISTS Courses;
-    DROP TABLE IF EXISTS Rooms;
+        DROP TABLE IF EXISTS Enrollments;
+        DROP TABLE IF EXISTS Courses;
+        DROP TABLE IF EXISTS Students;
+        DROP TABLE IF EXISTS Rooms;
+    """)
 
+    cursor.execute("PRAGMA foreign_keys = ON;")  
+
+    cursor.executescript("""
     CREATE TABLE Students (
         ID TEXT PRIMARY KEY,
         Name TEXT,
@@ -77,8 +104,10 @@ def create_and_populate_db(
     );
     """)
 
-    students_df.to_sql("Students", connection, if_exists="replace", index=False)
+    students_df.to_sql("Students", connection, if_exists="append", index=False)
     room_capacity_df.to_sql("Rooms", connection, if_exists="replace", index=False)
+    courses_df.to_sql("Courses", connection, if_exists="append", index=False)
+    enrollments_table.to_sql("Enrollments", connection, if_exists="replace", index=False)
 
     connection.commit()
     connection.close()
