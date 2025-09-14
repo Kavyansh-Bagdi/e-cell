@@ -59,14 +59,6 @@ def create_and_populate_db(
 
     exam_schedule_df["DATE"] = pd.to_datetime(exam_schedule_df["DATE"], errors="coerce")
 
-    # exam_schedule_df = exam_schedule_df[
-    #     exam_schedule_df["CourseCode"].isin(courses_df["CourseCode"]) &
-    #     exam_schedule_df["Room1"].isin(room_capacity_df["Room"]) &
-    #     exam_schedule_df["Room2"].isin(room_capacity_df["Room"]) &
-    #     exam_schedule_df["Room3"].isin(room_capacity_df["Room"]) &
-    #     exam_schedule_df["Room4"].isin(room_capacity_df["Room"])
-    # ]
-
     # Enrollment 
     enrollments_df = enrollments_df[["Student ID","Course Code"]]
     enrollments_table = enrollments_df.rename(columns={
