@@ -1,3 +1,4 @@
 pandas
 openpyxl
 sqlite3
+reportlab
