@@ -1,3 +1,5 @@
+from functions.room import Room
+
 course_allocation_progress = {}
 def allocate_course_sequentially(
     connection,
@@ -7,7 +9,7 @@ def allocate_course_sequentially(
     progress_tracker: dict
 ):
     
-    print(f"--- Starting allocation for Course '{course_id}' in Room '{room.room_id}' ---")
+    print(f"--- Starting allocation for Course '{course_id}' in Room '{room.roomId}' ---")
 
     cursor = connection.cursor()
     cursor.execute("""
@@ -37,7 +39,7 @@ def allocate_course_sequentially(
         if was_allocated:
             newly_allocated_count += 1
         else:
-            print(f"ℹ️ Room '{room.room_id}' is now full for Seat Type '{seat_type}'.")
+            print(f"ℹ️ Room '{room.roomId}' is now full for Seat Type '{seat_type}'.")
             break
 
     new_progress_index = start_index + newly_allocated_count

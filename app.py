@@ -58,11 +58,11 @@ for day in days:
             classroom_obj[roomId] = Room(roomId,classroom_capacity[roomId])
 
         # fetching courses for corresponding classrooms
-        courses_that_day = ()
+        courses_that_day = set()
         classrooms_course = {}
         for classroom in classrooms:
             cursor.execute('SELECT CourseCode FROM ExamSchedule WHERE Date = ? and Time = ? and ? in (Room1,Room2,Room3,Room4)',(day,time_slot,classroom))
-            classrooms_course[classroom] = ()
+            classrooms_course[classroom] = set()
             for course in cursor.fetchall():
                 if(course != None):
                     classrooms_course[classroom].add(course[0])
@@ -73,7 +73,7 @@ for day in days:
         for course in courses_that_day:
             cursor.execute('SELECT Room1,Room2,Room3,Room4 FROM ExamSchedule WHERE Date = ? AND Time = ? AND CourseCode = ?',(day,time_slot,course))
 
-            course_room_that_day[course] = ()
+            course_room_that_day[course] = set()
             for tuple in cursor.fetchall():
                 for room in tuple:
                     if(room != None):
@@ -84,12 +84,11 @@ for day in days:
             for courseId in classrooms_course[room]:
                 for courseId_room in course_room_that_day[courseId]:
                     # decide seat type
-                    seat_type = "SeatA";
-                    if(classrooms_course[room].index(courseId) % 2 == 0){
+                    seat_type = "SeatA"
+                    if(list(classrooms_course[room]).index(courseId) % 2 == 0):
                         seat_type = "SeatA"
-                    }else{
+                    else:
                         seat_type = "SeatB"
-                    }
 
                     allocate_course_sequentially(connection,classroom_obj[room],courseId,seat_type,progress_tracker)
 
