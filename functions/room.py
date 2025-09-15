@@ -11,14 +11,14 @@ class Room:
         self.capacity = capacity
         self.arrangement = [[None,None] for _ in range(capacity)]
 
-    def allocate(self, student_id: str, seat_type: str) -> bool:
+    def allocate(self, student, seat_type: str) -> bool:
         if seat_type == 0:
             if(self.capacity == self.ptrA):
                 return False
             while self.ptrA < self.capacity and self.arrangement[self.ptrA][0] is not None:
                 self.ptrA += 1
             if self.ptrA < self.capacity:
-                self.arrangement[self.ptrA][0] = student_id
+                self.arrangement[self.ptrA][0] = student
                 return True
         else:
             if(self.capacity == self.ptrB):
@@ -26,7 +26,7 @@ class Room:
             while self.ptrB < self.capacity and self.arrangement[self.ptrB][1] is not None:
                 self.ptrB += 1
             if self.ptrB < self.capacity:
-                self.arrangement[self.ptrB][1] = student_id
+                self.arrangement[self.ptrB][1] = student
                 return True
         return False
 

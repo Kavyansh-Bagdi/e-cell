@@ -60,10 +60,11 @@ def create_and_populate_db(
     exam_schedule_df["DATE"] = pd.to_datetime(exam_schedule_df["DATE"], errors="coerce")
 
     # Enrollment 
-    enrollments_df = enrollments_df[["Student ID","Course Code"]]
+    enrollments_df = enrollments_df[["Student ID","Course Code","Elective Type"]]
     enrollments_table = enrollments_df.rename(columns={
         "Student ID" : "ID",
-        "Course Code" : "CourseCode"
+        "Course Code" : "CourseCode",
+        "Elective Type" : "CourseType"
     })
 
     connection = sqlite3.connect(db_path)
@@ -111,6 +112,7 @@ def create_and_populate_db(
     CREATE TABLE Enrollments (
         ID TEXT,
         CourseCode TEXT,
+        CourseType TEXT,
         PRIMARY KEY (ID, CourseCode),
         FOREIGN KEY (ID) REFERENCES Students(ID) ON DELETE CASCADE,
         FOREIGN KEY (CourseCode) REFERENCES Courses(CourseCode) ON DELETE CASCADE

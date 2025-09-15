@@ -36,16 +36,17 @@ for tuple in cursor.fetchall():
 
 # print(days)
 for day in days:
-
     # print("Day",day)
 
     for time_slot in time_slots:
-
-        progress_tracker = {code: 0 for code in course_codes}
+        print("-"*100)
+        print("Day : ",day,'Time : ', time_slot)
+        # progress_tracker = {code: 0 for code in course_codes}
 
         # print("Time : ",time_slot)
 
         # fetch assign classroom for given day and time_slot
+
         cursor.execute(
             "SELECT Room1,Room2,Room3,Room4 FROM ExamSchedule WHERE Date = ? AND Time = ?",
             (day, time_slot)
@@ -56,6 +57,9 @@ for day in days:
                 if(room != None):
                     classrooms.add(room)
         classrooms = sorted(classrooms)
+
+        if len(classrooms) == 0:
+            continue
 
         # creating class object
         classroom_obj = {}
@@ -75,6 +79,9 @@ for day in days:
             roomIdToCourseId[classroom] = sorted(roomIdToCourseId[classroom])
         roomIdToCourseId = dict(sorted(roomIdToCourseId.items()))
 
+        if len(roomIdToCourseId) == 0:
+            continue
+
         # fetching all room coresponding to that course 
         courseToRoomId = {};
         for course in dayToCourseId:
@@ -93,21 +100,37 @@ for day in days:
         roomSeatAvailable = {}
         for classroom in classrooms:
             roomSeatAvailable[classroom] = [classroom_capacity[classroom],classroom_capacity[classroom]]
+        
+        # print(roomSeatAvailable)
+
+        adjMatrix = {}
+        for roomId in classrooms:
+            adjMatrix[roomId] = {}
+            for courseId in roomIdToCourseId[roomId]:
+                adjMatrix[roomId][courseId] = True
 
         # allocating seats | main
         for room in classrooms:
-            print(roomIdToCourseId[room])  
-            for courseId in (roomIdToCourseId[room]):
-
+            print("#"*100)
+            print('Outer Loop RoomId : ',room)
+            for courseId in roomIdToCourseId[room]:
+                print('CourseId : ',courseId)
+                # fetch studentId
                 cursor = connection.cursor()
                 cursor.execute("""
-                    SELECT Students.ID FROM Students
+                    SELECT Students.ID
+                    FROM Students
                     JOIN Enrollments ON Students.ID = Enrollments.ID
                     WHERE Enrollments.CourseCode = ?
-                    ORDER BY Students.ID
+                    AND Enrollments.CourseType IN ('CORE','PROGRAM CORE','Major Core','Open Elective','Program Elective','Advance Elective')
+                    ORDER BY 
+                        SUBSTR(Students.ID, 1, 4) DESC,   
+                        SUBSTR(Students.ID, -4, 4) ASC;
                 """, (courseId,))
 
+
                 all_students = deque([row[0] for row in cursor.fetchall()])
+                print("Students : ",all_students)
 
                 # occupy class fully : 1000
                 # partially : -1000
@@ -146,30 +169,42 @@ for day in days:
                     seatType = 1
 
                 for roomId in courseToRoomId[courseId]:
-                    # First try current seatType
+                    print('InnerLoop RoomId : ',roomId)
+                    if not adjMatrix[roomId][courseId]:
+                        print('InnerLoop RoomId Breaked: ',roomId)
+                        continue
+                    
+                    if not all_students:
+                        break
+
                     available = roomSeatAvailable[roomId][seatType]
                     to_allocate = min(len(all_students), available)
+                    print("Allocated : ",to_allocate)
+                    print("Available : ",roomSeatAvailable[roomId][seatType])
 
-                    # Allocate to chosen seatType
                     for _ in range(to_allocate):
-                        student = all_students.popleft()
-                        classroom_obj[roomId].allocate(student, seatType)
+                        studentId = all_students.popleft()
+                        student_data = [studentId]
+                        cursor.execute("SELECT Name, Section FROM STUDENTS WHERE ID = ?",(studentId,))
+                        temp_data = list(cursor.fetchall()[0])
+                        student_data.extend(temp_data)
+                        classroom_obj[roomId].allocate(student_data, seatType)
+
                     roomSeatAvailable[roomId][seatType] -= to_allocate
 
-                    # If still students left and other seatType has space, spill over
-                    if len(all_students) > 0:
-                        otherType = 1 if seatType == 0 else 0
-                        available = roomSeatAvailable[roomId][otherType]
-                        to_allocate = min(len(all_students), available)
-                        for _ in range(to_allocate):
-                            student = all_students.popleft()
-                            classroom_obj[roomId].allocate(student, otherType)
-                        roomSeatAvailable[roomId][otherType] -= to_allocate
+                    adjMatrix[roomId][courseId] = False
 
+                    print('InnerLoop RoomId Completed: ',roomId)
 
-                    
+                
+                print(roomSeatAvailable)
+                for roomId in classrooms:
+                    print(roomId,':')
+                    for courseId in roomIdToCourseId[roomId]:
+                        print(courseId,':',adjMatrix[roomId][courseId],end=", ")
+                    print()
 
-        generate_seating_pdf(classroom_obj,str(day+'_'+time_slot+'seating_arrangement'))
+        generate_seating_pdf(classroom_obj,str(day+'_'+time_slot+'seating_arrangement'),day,time_slot)
 
         # print(classrooms)
 
