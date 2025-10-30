@@ -11,130 +11,237 @@ db_path = "data.db"
 connection = sqlite3.connect(db_path)
 cursor = connection.cursor()
 
-# student data
-# CourseCode = no of student enroll
-cursor.execute("SELECT DISTINCT CourseCode FROM Enrollments;")
-course_codes = [row[0] for row in cursor.fetchall()]
-student_data = {code: 0 for code in course_codes}
+semester = int(input("[ User Input ] Enter value for Semester: "))
 
-for course_code in student_data:
-    cursor.execute("SELECT COUNT(*) FROM Enrollments WHERE CourseCode = ?", (course_code,))
-    student_data[course_code] = cursor.fetchone()[0]
+print("""
+[ Available Course Types ]
+1. CORE
+2. PROGRAM ELECTIVE
+3. OPEN ELECTIVE
+4. INSTITUTE CORE
+5. HONORS
+""")
 
-# time slot
-cursor.execute("SELECT DISTINCT Time FROM ExamSchedule")
-time_slots = [row[0] for row in cursor.fetchall()]
+course_type_options = {
+    "1": "CORE",
+    "2": "PROGRAM ELECTIVE",
+    "3": "OPEN ELECTIVE",
+    "4": "INSTITUTE CORE",
+    "5": "HONORS"
+}
 
-cursor.execute("SELECT DISTINCT Date FROM ExamSchedule")
-days = [row[0] for row in cursor.fetchall()]
+choice = input("[ User Input ] Enter Course Type (1-5 or name): ").strip().upper()
 
-# classroom capacity
-cursor.execute("SELECT Room, SeatA FROM Rooms");
+if choice in course_type_options:
+    course_type = course_type_options[choice]
+else:
+    course_type = choice.title()
+    if course_type not in course_type_options.values():
+        print("[ Warning ] Invalid course type entered. Defaulting to 'CORE'.")
+        course_type = "CORE"
+
+
+print("""
+[ Available Degrees ]
+1. B.Arch
+2. M.Plan
+3. B.Tech
+4. M.Tech
+5. M.Sc
+6. Ph.D
+7. MBA
+""")
+
+degree_options = {
+    "1": "B.Arch",
+    "2": "M.Plan",
+    "3": "B.Tech",
+    "4": "M.Tech",
+    "5": "M.Sc",
+    "6": "Ph.D",
+    "7": "MBA"
+}
+
+deg_choice = input("[ User Input ] Enter Degree (1-7 or name): ").strip()
+
+if deg_choice in degree_options:
+    degree = degree_options[deg_choice]
+else:
+    degree = deg_choice.upper()
+    if degree not in [d.upper() for d in degree_options.values()]:
+        print("[ Warning ] Invalid degree entered. Defaulting to 'B.Tech'.")
+        degree = "B.Tech"
+
+
+
+# Allotment options
+print("""
+[ Allotment Type Options ]
+1. Branch Wise
+2. Course Wise
+""")
+
+allotment_options = {
+    "1": "Branch Wise",
+    "2": "Course Wise"
+}
+
+choice = input("[ User Input ] Enter Allotment Type (1-2 or name): ").strip().title()
+
+if choice in allotment_options:
+    allotment_type = allotment_options[choice]
+else:
+    # Normalize textual input
+    if choice.lower() in ["branch wise", "branchwise"]:
+        allotment_type = "Branch Wise"
+    elif choice.lower() in ["course wise", "coursewise"]:
+        allotment_type = "Course Wise"
+    else:
+        print("[ Warning ] Invalid choice. Defaulting to 'Branch Wise'.")
+        allotment_type = "Branch Wise"
+
+print(f"\n[ Selected ] Semester: {semester}, Course Type: {course_type}, Degree: {degree}")
+print(f"[ Selected ] Allotment Type: {allotment_type}")
+
+cursor.execute("SELECT RoomNo, SeatA FROM Rooms");
 classroom_capacity = {};
 for tuple in cursor.fetchall():
-    classroom_capacity['VLTC-'+tuple[0]] = tuple[1];
+    classroom_capacity[tuple[0]] = tuple[1];
 
-# print(days)
-for day in days:
-    # print("Day",day)
 
-    for time_slot in time_slots:
-        print("-"*100)
-        print("Day : ",day,'Time : ', time_slot)
-        # progress_tracker = {code: 0 for code in course_codes}
+if allotment_type == "Branch Wise" :
 
-        # print("Time : ",time_slot)
+    cursor.execute("SELECT CourseCode, CourseType, CoordinatorName, Semester FROM Courses WHERE Semester = ? AND Degree = ? AND CourseType = ?",(semester,degree,course_type))
+    courses = [row for row in cursor.fetchall()]
 
-        # fetch assign classroom for given day and time_slot
+    courses_student_dict = { (code, ctype, coord, sem): 0 for code, ctype, coord, sem in courses }
 
-        cursor.execute(
-            "SELECT Room1,Room2,Room3,Room4 FROM ExamSchedule WHERE Date = ? AND Time = ?",
-            (day, time_slot)
-        )
-        classrooms = set()
+
+    for (code, ctype, coord, sem) in courses_student_dict.keys():
+        cursor.execute("""
+            SELECT Department 
+            FROM CourseDept 
+            WHERE CourseCode = ? 
+            AND CourseType = ? 
+            AND Semester = ? 
+            AND CoordinatorName = ?;
+        """, (code, ctype, sem, coord))
+
+        dept_row = cursor.fetchone()
+        department = dept_row[0] if dept_row else None
+
+        if department:
+            cursor.execute("""
+                SELECT MAX(No_Student)
+                FROM CourseDept
+                WHERE Department = ? AND Semester = ?;
+            """, (department, sem))
+            max_row = cursor.fetchone()
+            max_students = max_row[0] if max_row else 0
+        else:
+            max_students = 0
+
+        courses_student_dict[(code, ctype, coord, sem)] = max_students
+
+   # Dictionary to store (day, time) → list of courses
+    schedule = {}
+
+    for (code, ctype, coord, sem) in courses:
+        cursor.execute("""
+            SELECT Date, Time
+            FROM ExamSchedule
+            WHERE CourseCode = ? 
+            AND CourseType = ? 
+            AND Semester = ? 
+            AND CoordinatorName = ?;
+        """, (code, ctype, sem, coord))
+        
+        rows = cursor.fetchall()
+        for (day, time_slot) in rows:
+            key = (day, time_slot)
+            if key not in schedule:
+                schedule[key] = []
+            schedule[key].append((code, ctype, coord, sem))
+
+    for (day,time) in schedule:
+
+        room_to_courses = {}
+        course_to_rooms = {}
+
+        cursor.execute("""
+            SELECT DISTINCT Room1, Room2, Room3, Room4
+            FROM ExamSchedule
+            WHERE Date = ? AND Time = ?;
+        """, (day, time))
+
+        all_rooms = set()
         for row in cursor.fetchall():
             for room in row:
-                if(room != None):
-                    classrooms.add(room)
-        classrooms = sorted(classrooms)
+                if room:
+                    all_rooms.add(room)
+        all_rooms = sorted(all_rooms)
 
-        if len(classrooms) == 0:
-            continue
+        for room in all_rooms:
+            room_to_courses[room] = set()  
 
-        # creating class object
-        classroom_obj = {}
-        for roomId in classrooms:
-            classroom_obj[roomId] = Room(roomId,classroom_capacity[roomId])
+            cursor.execute("""
+                SELECT CourseCode, CourseType, CoordinatorName, Semester
+                FROM ExamSchedule
+                WHERE Date = ? AND Time = ? AND ? IN (Room1, Room2, Room3, Room4);
+            """, (day, time, room))
 
-        # fetching courses for corresponding classrooms
-        dayToCourseId = set()
-        roomIdToCourseId = {}
-        for classroom in classrooms:
-            cursor.execute('SELECT CourseCode FROM ExamSchedule WHERE Date = ? and Time = ? and ? in (Room1,Room2,Room3,Room4)',(day,time_slot,classroom))
-            roomIdToCourseId[classroom] = set()
             for course in cursor.fetchall():
-                if(course != None):
-                    roomIdToCourseId[classroom].add(course[0])
-                    dayToCourseId.add(course[0])
-            roomIdToCourseId[classroom] = sorted(roomIdToCourseId[classroom])
-        roomIdToCourseId = dict(sorted(roomIdToCourseId.items()))
+                if(course in courses):
+                    room_to_courses[room].add(course)
+                    if course not in course_to_rooms:
+                        course_to_rooms[course] = []
+                    course_to_rooms[course].append(room)
 
-        if len(roomIdToCourseId) == 0:
-            continue
+        print("Date : ",day)
+        print("Time Slot : ",time_slot)
+        print("Courses : ")
+        print(course_to_rooms.keys())
+        print("Rooms : ")
+        print(room_to_courses.keys())
 
-        # fetching all room coresponding to that course 
-        courseToRoomId = {};
-        for course in dayToCourseId:
-            cursor.execute('SELECT Room1,Room2,Room3,Room4 FROM ExamSchedule WHERE Date = ? AND Time = ? AND CourseCode = ?',(day,time_slot,course))
-
-            courseToRoomId[course] = []
-            for tuple in cursor.fetchall():
-                for room in tuple:
-                    if(room != None):
-                        courseToRoomId[course].append(room)
-                courseToRoomId[course] = sorted(courseToRoomId[course])
-
-        courseToRoomId = dict(sorted(courseToRoomId.items()))
-        # print(day,time_slot,courseToRoomId)
-
+        # re initializing room capacity for new day and time
         roomSeatAvailable = {}
-        for classroom in classrooms:
-            roomSeatAvailable[classroom] = [classroom_capacity[classroom],classroom_capacity[classroom]]
-        
-        # print(roomSeatAvailable)
 
-        adjMatrix = {}
-        for roomId in classrooms:
-            adjMatrix[roomId] = {}
-            for courseId in roomIdToCourseId[roomId]:
-                adjMatrix[roomId][courseId] = True
+        classroom_obj = {}
+        for room in room_to_courses.keys():
+            classroom_obj[room] = Room(room,classroom_capacity[room])
 
-        # allocating seats | main
-        for room in classrooms:
-            print("#"*100)
-            print('Outer Loop RoomId : ',room)
-            for courseId in roomIdToCourseId[room]:
-                print('CourseId : ',courseId)
-                # fetch studentId
-                cursor = connection.cursor()
+        for room in room_to_courses:
+            roomSeatAvailable[room] = [classroom_capacity[room],classroom_capacity[room]]
+
+        # visited Matrix
+        isVisited = {}
+        for course in course_to_rooms.keys():
+            for room in course_to_rooms[course]:
+                isVisited[(course,room)] = False
+
+        for room in room_to_courses.keys():
+            if len(room_to_courses[room]) == 0:
+                continue
+
+            for course_data in room_to_courses[room]:
                 cursor.execute("""
                     SELECT Students.ID
                     FROM Students
                     JOIN Enrollments ON Students.ID = Enrollments.ID
                     WHERE Enrollments.CourseCode = ?
-                    AND Enrollments.CourseType IN ('CORE','PROGRAM CORE','Major Core','Open Elective','Program Elective','Advance Elective')
+                    AND Enrollments.CourseType = ?
                     ORDER BY 
                         SUBSTR(Students.ID, 1, 4) DESC,   
                         SUBSTR(Students.ID, -4, 4) ASC;
-                """, (courseId,))
+                """, (course_data[0],course_data[1]))
 
 
                 all_students = deque([row[0] for row in cursor.fetchall()])
-                print("Students : ",all_students)
 
                 # occupy class fully : 1000
                 # partially : -1000
-                def calculateScore(courseId, seatType, classes):
+                def calculateScore(seatType, classes):
                     classCapacity = []
                     for roomId in classes:
                         classCapacity.append(roomSeatAvailable[roomId][seatType])
@@ -160,27 +267,23 @@ for day in days:
                     return score
 
 
-                scoreA = calculateScore(courseId,0,courseToRoomId[courseId])
-                scoreB = calculateScore(courseId,1,courseToRoomId[courseId])
+                scoreA = calculateScore(0,course_to_rooms[course_data])
+                scoreB = calculateScore(1,course_to_rooms[course_data])
 
                 seatType = 0
 
                 if(scoreA < scoreB):
                     seatType = 1
 
-                for roomId in courseToRoomId[courseId]:
-                    print('InnerLoop RoomId : ',roomId)
-                    if not adjMatrix[roomId][courseId]:
-                        print('InnerLoop RoomId Breaked: ',roomId)
+                for room in course_to_rooms[course_data]:
+                    if isVisited[(course_data,room)]:
                         continue
                     
                     if not all_students:
                         break
 
-                    available = roomSeatAvailable[roomId][seatType]
+                    available = roomSeatAvailable[room][seatType]
                     to_allocate = min(len(all_students), available)
-                    print("Allocated : ",to_allocate)
-                    print("Available : ",roomSeatAvailable[roomId][seatType])
 
                     for _ in range(to_allocate):
                         studentId = all_students.popleft()
@@ -188,24 +291,18 @@ for day in days:
                         cursor.execute("SELECT Name, Section FROM STUDENTS WHERE ID = ?",(studentId,))
                         temp_data = list(cursor.fetchall()[0])
                         student_data.extend(temp_data)
-                        classroom_obj[roomId].allocate(student_data, seatType)
+                        classroom_obj[room].allocate(student_data, seatType)
 
-                    roomSeatAvailable[roomId][seatType] -= to_allocate
+                    roomSeatAvailable[room][seatType] -= to_allocate
 
-                    adjMatrix[roomId][courseId] = False
+                    isVisited[(course_data,room)] = True
 
-                    print('InnerLoop RoomId Completed: ',roomId)
 
-                
-                print(roomSeatAvailable)
-                for roomId in classrooms:
-                    print(roomId,':')
-                    for courseId in roomIdToCourseId[roomId]:
-                        print(courseId,':',adjMatrix[roomId][courseId],end=", ")
-                    print()
 
         generate_seating_pdf(classroom_obj,str(day+'_'+time_slot+'seating_arrangement'),day,time_slot)
 
-        # print(classrooms)
 
-        # print("Classrooms : ",classrooms)
+
+               
+elif allotment_type == "Course Wise":
+    print("Course Wise")

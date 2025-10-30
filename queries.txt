@@ -1,0 +1,8 @@
+Department = select Department from CourseDept 
+where 
+    CourseCode = ? and 
+    CourseType = ? and 
+    Semester = ? and 
+    CoordinatorName
+
+SELECT MAX(No_Student) FROM CourseDept WHERE Department = ? AND Semester = ?;

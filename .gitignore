@@ -9,3 +9,4 @@ output/
 text.txt
 *.zip
 *.xlsx
+data/

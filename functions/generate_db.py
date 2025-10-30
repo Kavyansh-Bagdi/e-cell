@@ -50,11 +50,10 @@ def create_and_populate_db(
             "Course Title": "CourseName"
         }
     )
-    # dupes = courses_df[courses_df.duplicated(
-    #     subset=["CourseCode", "CourseType", "CoordinatorName", "Semester"], keep=False
-    # )]
-    # print("Duplicate courses:")
-    # print(dupes)
+    # Replace "PROGRAM CORE" with "CORE"
+    courses_df["CourseType"] = courses_df["CourseType"].replace("PROGRAM CORE", "CORE")
+    courses_df["Degree"] = courses_df["Degree"].replace("M.Tech.", "M.Tech")
+
 
     courses_df = courses_df.drop_duplicates(
         subset=["CourseCode", "CourseType", "CoordinatorName", "Semester"]
@@ -76,13 +75,10 @@ def create_and_populate_db(
         "Room 4": "Room4"
     })
     exam_schedule_df = exam_schedule_df.where(pd.notnull(exam_schedule_df), None)
+    # Replace "PROGRAM CORE" with "CORE"
+    exam_schedule_df["CourseType"] = exam_schedule_df["CourseType"].replace("PROGRAM CORE", "CORE")
 
-    # exam_schedule_df["DATE"] = pd.to_datetime(exam_schedule_df["DATE"], errors="coerce")
-    # for col in ["Room1", "Room2", "Room3", "Room4"]:
-    #     exam_schedule_df[col] = exam_schedule_df[col].apply(
-    #         lambda x: f"VLTC-{x}" if pd.notnull(x) else None
-    #     )
-    # Enrollment 
+
     enrollments_df = pd.read_excel(enrollments,engine="openpyxl")
     enrollments_df = enrollments_df[["Student ID","Course Sem","Course Code","Elective Type","Course Coordinator name"]]
     enrollments_table = enrollments_df.rename(columns={
@@ -93,7 +89,8 @@ def create_and_populate_db(
         "Course Sem" : "Semester"
     })
 
-
+    # Replace "PROGRAM CORE" with "CORE"
+    enrollments_table["CourseType"] = enrollments_table["CourseType"].replace("PROGRAM CORE", "CORE")
 
     connection = sqlite3.connect(db_path)
     cursor = connection.cursor()
@@ -106,6 +103,7 @@ def create_and_populate_db(
         DROP TABLE IF EXISTS Students;
         DROP TABLE IF EXISTS Rooms;
         DROP TABLE IF EXISTS Departments;
+        DROP TABLE IF EXISTS CourseDept;
     """)
 
     cursor.execute("PRAGMA foreign_keys = ON;")  
@@ -142,6 +140,8 @@ def create_and_populate_db(
         CourseType TEXT,
         Degree TEXT,
         Semester INTEGER,
+        RegularStd INTEGER DEFAULT 0,
+        BackLogStd INTEGER DEFAULT 0,
         PRIMARY KEY (CourseCode,CourseType,CoordinatorName,Semester)
     );
 
@@ -170,6 +170,23 @@ def create_and_populate_db(
         FOREIGN KEY (Id) REFERENCES Students(Id) ON DELETE CASCADE,
         FOREIGN KEY (CourseCode,CourseType,CoordinatorName,Semester) REFERENCES Courses(CourseCode,CourseType,CoordinatorName,Semester) ON DELETE CASCADE
     );
+                         
+    CREATE TABLE CourseDept (
+        Semester INTEGER,
+        CourseCode TEXT,
+        CourseType TEXT,
+        CoordinatorName TEXT,
+        Department TEXT,
+        No_Student INTEGER,
+        PRIMARY KEY (CourseCode, CourseType, CoordinatorName, Semester, Department),
+        FOREIGN KEY (CourseCode, CourseType, CoordinatorName, Semester) 
+            REFERENCES Courses(CourseCode, CourseType, CoordinatorName, Semester) 
+            ON DELETE CASCADE,
+        FOREIGN KEY (Department) 
+            REFERENCES Departments(Id) 
+            ON DELETE CASCADE
+    );
+
     """)
 
     print("Department\n",department_df)
@@ -186,6 +203,39 @@ def create_and_populate_db(
     courses_df.to_sql("Courses", connection, if_exists="append", index=False)
     exam_schedule_df.to_sql("ExamSchedule", connection, if_exists="append", index=False)
     enrollments_table.to_sql("Enrollments", connection, if_exists="replace", index=False)
+
+    cursor.execute("""
+        update enrollments set coordinatorname = 'DIPTI SHARMA' where (id,coursecode,coursetype) in (select s.id,e.coursecode,e.coursetype from enrollments e join students s on e.id = s.id and e.semester = s.semester where s.department = 'ARTIFICIAL INTELLIGENCE AND DATA ENGINEERING' and e.coursecode = '22HST241');
+    """)
+
+    cursor.execute("""
+        INSERT INTO CourseDept (Semester, CourseCode, CourseType, CoordinatorName, Department, No_Student)
+        SELECT 
+            e.Semester, 
+            e.CourseCode, 
+            e.CourseType, 
+            e.CoordinatorName, 
+            s.Department,
+            COUNT(*) AS No_Student
+        FROM Courses c 
+        JOIN Enrollments e
+            ON  e.CourseCode = c.CourseCode
+                AND e.CourseType = c.CourseType
+                AND e.CoordinatorName = c.CoordinatorName
+                AND e.Semester = c.Semester
+        JOIN Students s 
+            ON e.Id = s.Id
+        JOIN Departments d
+            ON s.Department = d.Id
+        WHERE e.CourseType IN ('PROGRAM CORE', 'CORE')
+        GROUP BY 
+            e.CourseCode, 
+            e.Semester, 
+            e.CourseType, 
+            s.Department,
+            e.CoordinatorName
+        ORDER BY e.Semester;
+    """)
 
 
     connection.commit()
