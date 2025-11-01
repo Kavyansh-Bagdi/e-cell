@@ -168,7 +168,7 @@ if allotment_type == "Branch Wise" :
     no_course = 0
 
     for (_day,_time) in schedule:
-        if no_course < len(schedule[_day,_time]) :
+        if no_course < len(schedule[(_day,_time)]) :
             no_course = len(schedule[(_day,_time)])
             day = _day
             time_slot = _time
