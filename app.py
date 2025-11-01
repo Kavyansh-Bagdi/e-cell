@@ -70,8 +70,6 @@ for day in days:
             warn_print("No Classroom is assigned on", day, "&", time_slot)
             continue
 
-        # create Room objects (skip rooms without capacity)
-        print("Classrooms:", classrooms)
         classroom_obj = {}
         for room_id in classrooms:
             cap = classroom_capacity.get(room_id)
