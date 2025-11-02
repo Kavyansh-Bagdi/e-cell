@@ -2,6 +2,7 @@ import sqlite3
 from functions.room import Room
 import argparse
 from functions.pdf_generator import generate_seating_pdf
+from functions.seating_arrangement_db_generate import generate_seating_db
 from collections import deque
 import os
 from colorama import Fore, Style, init
@@ -279,6 +280,8 @@ for day in days:
 
         # generate PDF for this day/time_slot (sanitize filename)
         filename = f"{str(day)}_{str(time_slot)}_seating_arrangement".replace(" ", "_")
+        
+        generate_seating_db(classroom_obj, day, time_slot)
         generate_seating_pdf(classroom_obj, filename, day, time_slot)
 
 # close DB connection

@@ -1,5 +1,6 @@
 import sqlite3
 import pandas as pd
+from seating_arrangement_db_generate import schema_generator
 
 def create_and_populate_db(
     db_path = "data.db",
@@ -273,6 +274,8 @@ def create_and_populate_db(
 
     connection.commit()
     connection.close()
+
+    schema_generator()
 
 if __name__ == "__main__":
     create_and_populate_db()

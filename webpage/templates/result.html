@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Seating Result</title>
+</head>
+
+<body style="font-family: Arial; margin: 40px;">
+    <h2>Results for Student ID: {{ student_id }}</h2>
+    {% if results %}
+    <table border="1" cellpadding="6" cellspacing="0">
+        <tr>
+            <th>Date</th>
+            <th>Time Slot</th>
+            <th>Room</th>
+            <th>Seat No</th>
+            <th>Name</th>
+            <th>Batch</th>
+        </tr>
+        {% for row in results %}
+        {% set date, slot, room, seatA, idA, nameA, batchA, seatB, idB, nameB, batchB = row %}
+        {% if idA == student_id %}
+        <tr>
+            <td>{{ date }}</td>
+            <td>{{ slot }}</td>
+            <td>{{ room }}</td>
+            <td>{{ seatA }}</td>
+            <td>{{ nameA }}</td>
+            <td>{{ batchA }}</td>
+        </tr>
+        {% elif idB == student_id %}
+        <tr>
+            <td>{{ date }}</td>
+            <td>{{ slot }}</td>
+            <td>{{ room }}</td>
+            <td>{{ seatB }}</td>
+            <td>{{ nameB }}</td>
+            <td>{{ batchB }}</td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No seating records found for this Student ID.</p>
+    {% endif %}
+    <p><a href="/">Go Back</a></p>
+</body>
+
+</html>
