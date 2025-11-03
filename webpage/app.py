@@ -244,7 +244,10 @@ def class_lookup():
                 SeatNoB, StudentIdB, NameB, BatchB
             FROM Arrangement
             WHERE Date = ? AND time_slot = ? AND Room = ?
-            ORDER BY CAST(REPLACE(SeatNoA, 'A', '') AS INTEGER)
+            ORDER BY 
+                CASE WHEN SeatNoA IS NULL THEN 1 ELSE 0 END,
+                CAST(REPLACE(SeatNoA, 'A', '') AS INTEGER)
+
         """, (date, time, room))
         results = cursor.fetchall()
 

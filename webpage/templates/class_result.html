@@ -56,7 +56,6 @@
         .table-container {
             width: 100%;
             max-width: 1200px;
-            /* wider */
             background: #fff;
             border-radius: 10px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -163,15 +162,29 @@
                 <tbody>
                     {% for row in results %}
                     <tr>
-                        <td>{{ row.Date }}</td>
-                        <td>{{ row.time_slot }}</td>
-                        <td>{{ row.Room }}</td>
-                        <td>{{ row.SeatNoA }}</td>
-                        <td>{{ row.NameA }} ({{ row.StudentIdA }})</td>
-                        <td>{{ row.BatchA }}</td>
-                        <td>{{ row.SeatNoB }}</td>
-                        <td>{{ row.NameB }} ({{ row.StudentIdB }})</td>
-                        <td>{{ row.BatchB }}</td>
+                        <td>{{ row.Date | default('', true) }}</td>
+                        <td>{{ row.time_slot | default('', true) }}</td>
+                        <td>{{ row.Room | default('', true) }}</td>
+                        <td>{{ row.SeatNoA | default('', true) }}</td>
+                        <td>
+                            {% if row.NameA or row.StudentIdA %}
+                            {{ row.NameA | default('', true) }}
+                            {% if row.StudentIdA %}
+                            ({{ row.StudentIdA | default('', true) }})
+                            {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>{{ row.BatchA | default('', true) }}</td>
+                        <td>{{ row.SeatNoB | default('', true) }}</td>
+                        <td>
+                            {% if row.NameB or row.StudentIdB %}
+                            {{ row.NameB | default('', true) }}
+                            {% if row.StudentIdB %}
+                            ({{ row.StudentIdB | default('', true) }})
+                            {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>{{ row.BatchB | default('', true) }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
