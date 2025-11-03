@@ -23,13 +23,14 @@
             border-radius: 8px;
             text-align: center;
             width: 90%;
-            max-width: 400px;
+            max-width: 480px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
             transition: background 0.3s;
         }
 
         input,
-        button {
+        button,
+        select {
             padding: 10px;
             border-radius: 4px;
             font-size: 15px;
@@ -48,7 +49,7 @@
             color: inherit;
         }
 
-        /* Light theme (default) */
+        /* Light Theme */
         body.light {
             background: #fafafa;
             color: #111;
@@ -58,7 +59,8 @@
             background: #fff;
         }
 
-        body.light input {
+        body.light input,
+        body.light select {
             border: 1px solid #ccc;
             background: #fff;
             color: #111;
@@ -70,7 +72,7 @@
             border: none;
         }
 
-        /* Dark theme */
+        /* Dark Theme */
         body.dark {
             background: #121212;
             color: #e0e0e0;
@@ -80,7 +82,8 @@
             background: #1c1c1c;
         }
 
-        body.dark input {
+        body.dark input,
+        body.dark select {
             border: 1px solid #333;
             background: #101010;
             color: #f0f0f0;
@@ -91,6 +94,39 @@
             color: #111;
             border: none;
         }
+
+        .mode-switch {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .mode-switch button {
+            background: none;
+            border: 1px solid #777;
+            color: inherit;
+            padding: 8px 14px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .mode-switch button.active {
+            background: #111;
+            color: #fff;
+            border-color: #111;
+        }
+
+        body.dark .mode-switch button.active {
+            background: #e0e0e0;
+            color: #111;
+            border-color: #e0e0e0;
+        }
+
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 
@@ -99,18 +135,72 @@
 
     <div class="container">
         <h2 style="margin-bottom:25px; border-bottom:2px solid #777; display:inline-block; padding-bottom:6px;">
-            Search Your Seating Arrangement
+            Seating Arrangement & Course Lookup
         </h2>
 
-        <form method="POST" action="/" style="display:flex; flex-direction:column; gap:15px;">
+        <div class="mode-switch">
+            <button id="studentBtn" class="active" onclick="switchMode('student')">Student</button>
+            <button id="professorBtn" onclick="switchMode('professor')">Professor</button>
+            <button id="classBtn" onclick="switchMode('class')">Classes</button>
+        </div>
+
+        <!-- Student Form -->
+        <form id="studentForm" method="POST" action="/student">
             <label for="student_id" style="font-weight:bold;">Enter Student ID:</label>
             <input type="text" id="student_id" name="student_id" required>
-
             <button type="submit">Search</button>
+        </form>
+
+        <!-- Professor Form -->
+        <form id="professorForm" class="hidden" method="POST" action="/professor">
+            <label for="professor_name" style="font-weight:bold;">Enter Professor Name:</label>
+            <input type="text" id="professor_name" name="professor_name" required>
+            <button type="submit">Search</button>
+        </form>
+
+        <!-- Class Lookup Form -->
+        <form id="classForm" class="hidden" method="POST" action="/class">
+            <label for="date" style="font-weight:bold;">Select Date:</label>
+            <select id="date" name="date" required>
+                {% for d in dates %}
+                <option value="{{ d }}">{{ d }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="time_slot" style="font-weight:bold;">Select Time Slot:</label>
+            <select id="time_slot" name="time_slot" required>
+                {% for t in times %}
+                <option value="{{ t }}">{{ t }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="room" style="font-weight:bold;">Select Room:</label>
+            <select id="room" name="room" required>
+                {% for r in rooms %}
+                <option value="{{ r }}">{{ r }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit">Show Arrangement</button>
         </form>
     </div>
 
     <script>
+        const studentForm = document.getElementById("studentForm");
+        const professorForm = document.getElementById("professorForm");
+        const classForm = document.getElementById("classForm");
+        const studentBtn = document.getElementById("studentBtn");
+        const professorBtn = document.getElementById("professorBtn");
+        const classBtn = document.getElementById("classBtn");
+
+        function switchMode(mode) {
+            [studentForm, professorForm, classForm].forEach(f => f.classList.add("hidden"));
+            [studentBtn, professorBtn, classBtn].forEach(b => b.classList.remove("active"));
+            if (mode === "student") { studentForm.classList.remove("hidden"); studentBtn.classList.add("active"); }
+            if (mode === "professor") { professorForm.classList.remove("hidden"); professorBtn.classList.add("active"); }
+            if (mode === "class") { classForm.classList.remove("hidden"); classBtn.classList.add("active"); }
+        }
+
         function toggleTheme() {
             const body = document.body;
             const button = document.querySelector(".theme-toggle");
