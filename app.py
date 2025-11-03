@@ -12,12 +12,12 @@ init(autoreset=True)
 def clear_terminal():
     os.system("cls" if os.name == "nt" else "clear")
 
-
 parser = argparse.ArgumentParser(description="Seating Arrangement Generator")
-parser.add_argument("--debug", action="store_true", help="Enable debug messages")
+parser.add_argument("--debug", action="store_true", help="python3 app.py --debug")
+parser.add_argument("--pdf", type=str, metavar="PATH", help="python3 app.py --pdf")
 args = parser.parse_args()
-
 DEBUG = args.debug
+PDF = args.pdf
 
 def debug_print(*msg):
     if DEBUG:
@@ -51,6 +51,11 @@ classroom_capacity = {}
 for row in cursor.fetchall():
     room_no, seat_a = row
     classroom_capacity[room_no] = seat_a
+
+cursor.execute("""
+    DELETE FROM Arrangement;
+""")
+connection.commit() 
 
 for day in days:
     for time_slot in time_slots:
@@ -206,17 +211,14 @@ for day in days:
                     no_students = len(all_students)
 
                 if no_students == 0:
-                    debug_print("No Student Found Course :", courseId)
-                    # continue? your logic originally still tries to place zero students; we'll skip allocation
+                    debug_print("No Student Found, Course :", courseId)
                     continue
 
-                # helper: compute score of filling seat-index (0 or 1) across given rooms
                 def calculate_score(seat_index, room_list):
                     class_capacity_list = [room_seat_available.get(r, [0, 0])[seat_index] for r in room_list]
                     needed = len(all_students)
                     score = 0
 
-                    # impossible to fit
                     if needed > sum(class_capacity_list):
                         return float('-inf')
 
@@ -230,7 +232,6 @@ for day in days:
                             score -= vacant * 100
                             remaining = 0
                         else:
-                            # room unused
                             continue
 
                     return score
@@ -244,7 +245,6 @@ for day in days:
                 scoreB = calculate_score(1, rooms_for_this_course)
                 seat_type = 1 if scoreB > scoreA else 0
 
-                # allocate students across rooms in the order of rooms_for_this_course
                 for dest_room in rooms_for_this_course:
                     if not visited.get(dest_room, {}).get(course_tuple, False):
                         continue
@@ -268,7 +268,6 @@ for day in days:
                         else:
                             student_data.extend(["Unknown", "Unknown"])
 
-                        # allocate in Room object (assumes Room.allocate handles seat_type)
                         if dest_room in classroom_obj:
                             classroom_obj[dest_room].allocate(student_data, seat_type)
                         else:
@@ -282,7 +281,8 @@ for day in days:
         filename = f"{str(day)}_{str(time_slot)}_seating_arrangement".replace(" ", "_")
         
         generate_seating_db(classroom_obj, day, time_slot)
-        generate_seating_pdf(classroom_obj, filename, day, time_slot)
+        if PDF:
+            generate_seating_pdf(classroom_obj, filename, day, time_slot)
 
 # close DB connection
 connection.close()

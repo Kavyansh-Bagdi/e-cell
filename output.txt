@@ -1,1 +1,0 @@
-[ User Input ] Enter value for Semester: 

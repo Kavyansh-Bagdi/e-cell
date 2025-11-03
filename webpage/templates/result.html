@@ -1,49 +1,167 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>Seating Result</title>
+    <meta charset="UTF-8">
+    <title>Seating Arrangement Result</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            transition: background 0.3s;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+
+        h2 {
+            border-bottom: 2px solid #777;
+            display: inline-block;
+            padding-bottom: 6px;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: 1px solid #aaa;
+            padding: 6px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            color: inherit;
+        }
+
+        /* Light theme (default) */
+        body.light {
+            background: #f8f8f8;
+            color: #111;
+        }
+
+        body.light table {
+            background: #fff;
+            border-color: #ddd;
+        }
+
+        body.light th {
+            background: #f0f0f0;
+        }
+
+        /* Dark theme */
+        body.dark {
+            background: #121212;
+            color: #e0e0e0;
+        }
+
+        body.dark table {
+            background: #1e1e1e;
+            border-color: #333;
+        }
+
+        body.dark th {
+            background: #2a2a2a;
+        }
+
+        .course-box {
+            text-align: left;
+            background: rgba(0, 0, 0, 0.05);
+            padding: 6px;
+            border-radius: 4px;
+            margin-bottom: 6px;
+        }
+
+        body.dark .course-box {
+            background: #181818;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 
-<body style="font-family: Arial; margin: 40px;">
-    <h2>Results for Student ID: {{ student_id }}</h2>
+<body class="light">
+    <button class="theme-toggle" onclick="toggleTheme()">Dark</button>
+
+    <h2>Seating Arrangement for {{ student_id }}</h2>
+
     {% if results %}
-    <table border="1" cellpadding="6" cellspacing="0">
-        <tr>
-            <th>Date</th>
-            <th>Time Slot</th>
-            <th>Room</th>
-            <th>Seat No</th>
-            <th>Name</th>
-            <th>Batch</th>
-        </tr>
-        {% for row in results %}
-        {% set date, slot, room, seatA, idA, nameA, batchA, seatB, idB, nameB, batchB = row %}
-        {% if idA == student_id %}
-        <tr>
-            <td>{{ date }}</td>
-            <td>{{ slot }}</td>
-            <td>{{ room }}</td>
-            <td>{{ seatA }}</td>
-            <td>{{ nameA }}</td>
-            <td>{{ batchA }}</td>
-        </tr>
-        {% elif idB == student_id %}
-        <tr>
-            <td>{{ date }}</td>
-            <td>{{ slot }}</td>
-            <td>{{ room }}</td>
-            <td>{{ seatB }}</td>
-            <td>{{ nameB }}</td>
-            <td>{{ batchB }}</td>
-        </tr>
-        {% endif %}
-        {% endfor %}
-    </table>
+    <div style="overflow-x:auto;">
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Time Slot</th>
+                    <th>Room</th>
+                    <th>Seat No</th>
+                    <th>Name</th>
+                    <th>Batch</th>
+                    <th>Courses</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in results %}
+                <tr>
+                    <td>{{ row.Date }}</td>
+                    <td>{{ row.time_slot }}</td>
+                    <td>{{ row.Room }}</td>
+                    <td>{{ row.SeatNo }}</td>
+                    <td>{{ row.Name }}</td>
+                    <td>{{ row.Batch }}</td>
+                    <td style="text-align:left;">
+                        {% if row.Courses %}
+                        {% for c in row.Courses %}
+                        <div class="course-box">
+                            <strong>{{ c.CourseCode }}</strong> — {{ c.CourseName }}<br>
+                            <small>{{ c.CourseType }} | Sem {{ c.Semester }}<br>
+                                <em>Coordinator: {{ c.CoordinatorName }}</em>
+                            </small>
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        —
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
     {% else %}
-    <p>No seating records found for this Student ID.</p>
+    <p>⚠ No seating arrangement found for this student ID.</p>
     {% endif %}
-    <p><a href="/">Go Back</a></p>
+
+    <div style="margin-top:25px;">
+        <a href="/">← Back to Search</a>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const button = document.querySelector(".theme-toggle");
+            body.classList.toggle("dark");
+            body.classList.toggle("light");
+            button.textContent = body.classList.contains("dark") ? "Light" : "Dark";
+        }
+    </script>
 </body>
 
 </html>

@@ -1,17 +1,124 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
     <title>Seating Arrangement Lookup</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .container {
+            padding: 40px 50px;
+            border-radius: 8px;
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            transition: background 0.3s;
+        }
+
+        input,
+        button {
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: 1px solid #ccc;
+            padding: 6px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            color: inherit;
+        }
+
+        /* Light theme (default) */
+        body.light {
+            background: #fafafa;
+            color: #111;
+        }
+
+        body.light .container {
+            background: #fff;
+        }
+
+        body.light input {
+            border: 1px solid #ccc;
+            background: #fff;
+            color: #111;
+        }
+
+        body.light button {
+            background: #111;
+            color: #fff;
+            border: none;
+        }
+
+        /* Dark theme */
+        body.dark {
+            background: #121212;
+            color: #e0e0e0;
+        }
+
+        body.dark .container {
+            background: #1c1c1c;
+        }
+
+        body.dark input {
+            border: 1px solid #333;
+            background: #101010;
+            color: #f0f0f0;
+        }
+
+        body.dark button {
+            background: #e0e0e0;
+            color: #111;
+            border: none;
+        }
+    </style>
 </head>
 
-<body style="font-family: Arial; margin: 40px;">
-    <h2>Search Your Seating Arrangement</h2>
-    <form method="POST" action="/">
-        <label for="student_id">Enter Student ID:</label>
-        <input type="text" id="student_id" name="student_id" required>
-        <button type="submit">Search</button>
-    </form>
+<body class="light">
+    <button class="theme-toggle" onclick="toggleTheme()">Dark</button>
+
+    <div class="container">
+        <h2 style="margin-bottom:25px; border-bottom:2px solid #777; display:inline-block; padding-bottom:6px;">
+            Search Your Seating Arrangement
+        </h2>
+
+        <form method="POST" action="/" style="display:flex; flex-direction:column; gap:15px;">
+            <label for="student_id" style="font-weight:bold;">Enter Student ID:</label>
+            <input type="text" id="student_id" name="student_id" required>
+
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const button = document.querySelector(".theme-toggle");
+            body.classList.toggle("dark");
+            body.classList.toggle("light");
+            button.textContent = body.classList.contains("dark") ? "Light" : "Dark";
+        }
+    </script>
 </body>
 
 </html>

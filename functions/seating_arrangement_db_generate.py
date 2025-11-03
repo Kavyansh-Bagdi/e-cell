@@ -1,37 +1,10 @@
 import sqlite3
 
-def schema_generator():
-    connection = sqlite3.connect("seating_arrangement.db")
-    cursor = connection.cursor()
-
-    cursor.execute("DELETE FROM arrangement")
-    
-    cursor.execute(
-        """
-        CREATE TABLE IF NOT EXISTS arrangement (
-            Date TEXT,
-            time_slot TEXT,
-            Room TEXT,
-            SeatNoA TEXT,
-            StudentIdA TEXT,
-            NameA TEXT,
-            BatchA TEXT,
-            SeatNoB TEXT,
-            StudentIdB TEXT,
-            NameB TEXT,
-            BatchB TEXT
-        )
-        """
-    )
-
-    connection.commit()
-    connection.close()
-
 def generate_seating_db(classrooms: dict, day: str, time_slot: str):
     """
     Stores seating data for multiple Room objects in the SQLite database without modifying seat numbers.
     """
-    connection = sqlite3.connect("seating_arrangement.db")
+    connection = sqlite3.connect("data.db")
     cursor = connection.cursor()
 
     for room_id, room in classrooms.items():
@@ -52,7 +25,7 @@ def generate_seating_db(classrooms: dict, day: str, time_slot: str):
 
             # Insert record
             cursor.execute("""
-                INSERT INTO arrangement (
+                INSERT INTO Arrangement (
                     Date, time_slot, Room,
                     SeatNoA, StudentIdA, NameA, BatchA,
                     SeatNoB, StudentIdB, NameB, BatchB

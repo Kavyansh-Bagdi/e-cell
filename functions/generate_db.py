@@ -1,6 +1,5 @@
 import sqlite3
 import pandas as pd
-from seating_arrangement_db_generate import schema_generator
 
 def create_and_populate_db(
     db_path = "data.db",
@@ -134,6 +133,7 @@ def create_and_populate_db(
         DROP TABLE IF EXISTS Rooms;
         DROP TABLE IF EXISTS Departments;
         DROP TABLE IF EXISTS CourseDept;
+        DROP TABLE IF EXISTS Arrangement;
     """)
 
     cursor.execute("PRAGMA foreign_keys = ON;")  
@@ -218,6 +218,20 @@ def create_and_populate_db(
             REFERENCES Departments(Id) 
             ON DELETE CASCADE
     );
+                         
+    CREATE TABLE IF NOT EXISTS Arrangement (
+        Date TEXT,
+        time_slot TEXT,
+        Room TEXT,
+        SeatNoA TEXT,
+        StudentIdA TEXT,
+        NameA TEXT,
+        BatchA TEXT,
+        SeatNoB TEXT,
+        StudentIdB TEXT,
+        NameB TEXT,
+        BatchB TEXT
+    );
 
     """)
 
@@ -274,8 +288,6 @@ def create_and_populate_db(
 
     connection.commit()
     connection.close()
-
-    schema_generator()
 
 if __name__ == "__main__":
     create_and_populate_db()
