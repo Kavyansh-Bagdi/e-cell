@@ -6,126 +6,187 @@
     <title>Class Seating Arrangement</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        /* Base Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
-            transition: background 0.3s, color 0.3s;
+            background: #f8f8f8;
+            color: #222;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background: #f0f0f0;
+            color: #111;
+            padding: 15px 30px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        header h1 {
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        /* Content */
+        main {
+            flex: 1;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h2 {
+            border-bottom: 2px solid #777;
+            padding-bottom: 6px;
+            margin-bottom: 25px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .table-container {
+            width: 100%;
+            max-width: 1200px;
+            /* wider */
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+            padding: 25px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 15px;
+            font-size: 15px;
         }
 
         th,
         td {
-            padding: 10px;
+            padding: 12px;
             border: 1px solid #ccc;
             text-align: center;
         }
 
-        h2 {
-            border-bottom: 2px solid #777;
-            display: inline-block;
-            padding-bottom: 6px;
-        }
-
-        .theme-toggle {
-            position: fixed;
-            top: 15px;
-            right: 15px;
-            background: none;
-            border: 1px solid #aaa;
-            padding: 6px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            color: inherit;
-        }
-
-        body.light {
-            background: #f8f8f8;
-            color: #111;
-        }
-
-        body.light table {
-            background: #fff;
-            border-color: #ddd;
-        }
-
-        body.light th {
+        th {
             background: #f0f0f0;
+            font-weight: 600;
         }
 
-        body.dark {
-            background: #121212;
-            color: #e0e0e0;
+        tr:nth-child(even) {
+            background: #fafafa;
         }
 
-        body.dark table {
-            background: #1e1e1e;
-            border-color: #333;
+        p {
+            margin-top: 15px;
+            color: #555;
         }
 
-        body.dark th {
-            background: #2a2a2a;
+        a {
+            color: #222;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 30px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            background: #f0f0f0;
+            color: #111;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 14px;
+            border-top: 1px solid #ddd;
+            margin-top: auto;
+        }
+
+        /* Responsive */
+        @media (max-width: 700px) {
+            table {
+                font-size: 14px;
+            }
+
+            th,
+            td {
+                padding: 8px;
+            }
+
+            h2 {
+                font-size: 18px;
+            }
+
+            .table-container {
+                padding: 15px;
+            }
         }
     </style>
 </head>
 
-<body class="light">
-    <button class="theme-toggle" onclick="toggleTheme()">Dark</button>
+<body>
+    <header>
+        <h1>Class Seating Arrangement</h1>
+    </header>
 
-    <h2>Class Seating Arrangement</h2>
+    <main>
+        <h2>Seating Details</h2>
 
-    {% if results %}
-    <table>
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Time Slot</th>
-                <th>Room</th>
-                <th>Seat A</th>
-                <th>Student A</th>
-                <th>Batch A</th>
-                <th>Seat B</th>
-                <th>Student B</th>
-                <th>Batch B</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for row in results %}
-            <tr>
-                <td>{{ row.Date }}</td>
-                <td>{{ row.time_slot }}</td>
-                <td>{{ row.Room }}</td>
-                <td>{{ row.SeatNoA }}</td>
-                <td>{{ row.NameA }} ({{ row.StudentIdA }})</td>
-                <td>{{ row.BatchA }}</td>
-                <td>{{ row.SeatNoB }}</td>
-                <td>{{ row.NameB }} ({{ row.StudentIdB }})</td>
-                <td>{{ row.BatchB }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% else %}
-    <p>⚠ No arrangement found for this selection.</p>
-    {% endif %}
+        {% if results %}
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Time Slot</th>
+                        <th>Room</th>
+                        <th>Seat A</th>
+                        <th>Student A</th>
+                        <th>Batch A</th>
+                        <th>Seat B</th>
+                        <th>Student B</th>
+                        <th>Batch B</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in results %}
+                    <tr>
+                        <td>{{ row.Date }}</td>
+                        <td>{{ row.time_slot }}</td>
+                        <td>{{ row.Room }}</td>
+                        <td>{{ row.SeatNoA }}</td>
+                        <td>{{ row.NameA }} ({{ row.StudentIdA }})</td>
+                        <td>{{ row.BatchA }}</td>
+                        <td>{{ row.SeatNoB }}</td>
+                        <td>{{ row.NameB }} ({{ row.StudentIdB }})</td>
+                        <td>{{ row.BatchB }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p>⚠ No arrangement found for this selection.</p>
+        {% endif %}
 
-    <div style="margin-top:25px;">
         <a href="/">← Back to Search</a>
-    </div>
+    </main>
 
-    <script>
-        function toggleTheme() {
-            const body = document.body;
-            const button = document.querySelector(".theme-toggle");
-            body.classList.toggle("dark");
-            body.classList.toggle("light");
-            button.textContent = body.classList.contains("dark") ? "Light" : "Dark";
-        }
-    </script>
+    <footer>
+        © 2025 Seating Arrangement System
+    </footer>
 </body>
 
 </html>

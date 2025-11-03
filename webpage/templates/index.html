@@ -6,184 +6,210 @@
     <title>Seating Arrangement Lookup</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        /* Reset & Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 40px;
+            background: #f8f8f8;
+            color: #222;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            transition: background 0.3s, color 0.3s;
+            min-height: 100vh;
         }
 
-        .container {
-            padding: 40px 50px;
-            border-radius: 8px;
+        /* Header */
+        header {
+            background: #f0f0f0;
+            color: #111;
+            padding: 15px 30px;
             text-align: center;
-            width: 90%;
+            border-bottom: 1px solid #ddd;
+        }
+
+        header h1 {
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        /* Main Container */
+        .container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+        }
+
+        .box {
+            background: #fff;
+            padding: 40px 50px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
             max-width: 480px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            transition: background 0.3s;
-        }
-
-        input,
-        button,
-        select {
-            padding: 10px;
-            border-radius: 4px;
-            font-size: 15px;
-            transition: all 0.3s;
-        }
-
-        .theme-toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: none;
-            border: 1px solid #ccc;
-            padding: 6px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            color: inherit;
-        }
-
-        /* Light Theme */
-        body.light {
-            background: #fafafa;
-            color: #111;
-        }
-
-        body.light .container {
-            background: #fff;
-        }
-
-        body.light input,
-        body.light select {
-            border: 1px solid #ccc;
-            background: #fff;
-            color: #111;
-        }
-
-        body.light button {
-            background: #111;
-            color: #fff;
-            border: none;
-        }
-
-        /* Dark Theme */
-        body.dark {
-            background: #121212;
-            color: #e0e0e0;
-        }
-
-        body.dark .container {
-            background: #1c1c1c;
-        }
-
-        body.dark input,
-        body.dark select {
-            border: 1px solid #333;
-            background: #101010;
-            color: #f0f0f0;
-        }
-
-        body.dark button {
-            background: #e0e0e0;
-            color: #111;
-            border: none;
+            text-align: center;
         }
 
         .mode-switch {
             display: flex;
             justify-content: center;
             gap: 10px;
-            margin-bottom: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
         }
 
         .mode-switch button {
-            background: none;
-            border: 1px solid #777;
-            color: inherit;
-            padding: 8px 14px;
+            background: #f0f0f0;
+            border: 1px solid #ccc;
+            padding: 8px 16px;
+            border-radius: 5px;
             cursor: pointer;
-            border-radius: 4px;
+            font-size: 15px;
             transition: all 0.3s;
         }
 
         .mode-switch button.active {
-            background: #111;
-            color: #fff;
-            border-color: #111;
+            background: #e0e0e0;
+            border-color: #bbb;
         }
 
-        body.dark .mode-switch button.active {
-            background: #e0e0e0;
-            color: #111;
-            border-color: #e0e0e0;
+        label {
+            font-weight: 600;
+            text-align: left;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        form {
+            display: grid;
+            gap: 15px;
+        }
+
+        input,
+        select,
+        button {
+            padding: 10px;
+            font-size: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            transition: border-color 0.3s, background 0.3s;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #666;
+            outline: none;
+        }
+
+        button[type="submit"] {
+            background-color: #444;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #333;
         }
 
         .hidden {
             display: none;
         }
+
+        /* Footer */
+        footer {
+            background: #f0f0f0;
+            color: #111;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 14px;
+            border-top: 1px solid #ddd;
+            margin-top: auto;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .box {
+                padding: 25px 20px;
+            }
+
+            .mode-switch button {
+                width: 100%;
+            }
+
+            header h1 {
+                font-size: 18px;
+            }
+        }
     </style>
 </head>
 
-<body class="light">
-    <button class="theme-toggle" onclick="toggleTheme()">Dark</button>
+<body>
+
+    <header>
+        <h1>Seating Arrangement & Course Lookup</h1>
+    </header>
 
     <div class="container">
-        <h2 style="margin-bottom:25px; border-bottom:2px solid #777; display:inline-block; padding-bottom:6px;">
-            Seating Arrangement & Course Lookup
-        </h2>
+        <div class="box">
+            <div class="mode-switch">
+                <button id="studentBtn" class="active" onclick="switchMode('student')">Student</button>
+                <button id="professorBtn" onclick="switchMode('professor')">Professor</button>
+                <button id="classBtn" onclick="switchMode('class')">Classes</button>
+            </div>
 
-        <div class="mode-switch">
-            <button id="studentBtn" class="active" onclick="switchMode('student')">Student</button>
-            <button id="professorBtn" onclick="switchMode('professor')">Professor</button>
-            <button id="classBtn" onclick="switchMode('class')">Classes</button>
+            <!-- Student Form -->
+            <form id="studentForm" method="POST" action="/student">
+                <label for="student_id">Enter Student ID:</label>
+                <input type="text" id="student_id" name="student_id" required>
+                <button type="submit">Search</button>
+            </form>
+
+            <!-- Professor Form -->
+            <form id="professorForm" class="hidden" method="POST" action="/professor">
+                <label for="professor_name">Enter Professor Name:</label>
+                <input type="text" id="professor_name" name="professor_name" required>
+                <button type="submit">Search</button>
+            </form>
+
+            <!-- Class Lookup Form -->
+            <form id="classForm" class="hidden" method="POST" action="/class">
+                <label for="date">Select Date:</label>
+                <select id="date" name="date" required>
+                    {% for d in dates %}
+                    <option value="{{ d }}">{{ d }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="time_slot">Select Time Slot:</label>
+                <select id="time_slot" name="time_slot" required>
+                    {% for t in times %}
+                    <option value="{{ t }}">{{ t }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="room">Select Room:</label>
+                <select id="room" name="room" required>
+                    {% for r in rooms %}
+                    <option value="{{ r }}">{{ r }}</option>
+                    {% endfor %}
+                </select>
+
+                <button type="submit">Show Arrangement</button>
+            </form>
         </div>
-
-        <!-- Student Form -->
-        <form id="studentForm" method="POST" action="/student">
-            <label for="student_id" style="font-weight:bold;">Enter Student ID:</label>
-            <input type="text" id="student_id" name="student_id" required>
-            <button type="submit">Search</button>
-        </form>
-
-        <!-- Professor Form -->
-        <form id="professorForm" class="hidden" method="POST" action="/professor">
-            <label for="professor_name" style="font-weight:bold;">Enter Professor Name:</label>
-            <input type="text" id="professor_name" name="professor_name" required>
-            <button type="submit">Search</button>
-        </form>
-
-        <!-- Class Lookup Form -->
-        <form id="classForm" class="hidden" method="POST" action="/class">
-            <label for="date" style="font-weight:bold;">Select Date:</label>
-            <select id="date" name="date" required>
-                {% for d in dates %}
-                <option value="{{ d }}">{{ d }}</option>
-                {% endfor %}
-            </select>
-
-            <label for="time_slot" style="font-weight:bold;">Select Time Slot:</label>
-            <select id="time_slot" name="time_slot" required>
-                {% for t in times %}
-                <option value="{{ t }}">{{ t }}</option>
-                {% endfor %}
-            </select>
-
-            <label for="room" style="font-weight:bold;">Select Room:</label>
-            <select id="room" name="room" required>
-                {% for r in rooms %}
-                <option value="{{ r }}">{{ r }}</option>
-                {% endfor %}
-            </select>
-
-            <button type="submit">Show Arrangement</button>
-        </form>
     </div>
+
+    <footer>
+        © 2025 Seating Arrangement System
+    </footer>
 
     <script>
         const studentForm = document.getElementById("studentForm");
@@ -200,15 +226,8 @@
             if (mode === "professor") { professorForm.classList.remove("hidden"); professorBtn.classList.add("active"); }
             if (mode === "class") { classForm.classList.remove("hidden"); classBtn.classList.add("active"); }
         }
-
-        function toggleTheme() {
-            const body = document.body;
-            const button = document.querySelector(".theme-toggle");
-            body.classList.toggle("dark");
-            body.classList.toggle("light");
-            button.textContent = body.classList.contains("dark") ? "Light" : "Dark";
-        }
     </script>
+
 </body>
 
 </html>
