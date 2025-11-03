@@ -207,6 +207,9 @@ for day in days:
 
                     max_row = cursor.fetchone()
                     no_students = max_row[0] if max_row and max_row[0] is not None else 0
+                    if(no_students > len(all_students)):
+                        for i in range(0,no_students- len(all_students)):
+                            all_students.append("BLACKLOG")
                 else:
                     no_students = len(all_students)
 
@@ -261,12 +264,15 @@ for day in days:
                     for _ in range(to_allocate):
                         studentId = all_students.popleft()
                         student_data = [studentId]
-                        cursor.execute("SELECT Name, Section FROM Students WHERE ID = ?", (studentId,))
-                        fetched = cursor.fetchone()
-                        if fetched:
-                            student_data.extend([fetched[0], fetched[1]])
+                        if studentId == 'BLACKLOG':
+                            student_data.extend([" ", " "])
                         else:
-                            student_data.extend(["Unknown", "Unknown"])
+                            cursor.execute("SELECT Name, Section FROM Students WHERE ID = ?", (studentId,))
+                            fetched = cursor.fetchone()
+                            if fetched:
+                                student_data.extend([fetched[0], fetched[1]])
+                            else:
+                                student_data.extend(["Unknown", "Unknown"])
 
                         if dest_room in classroom_obj:
                             classroom_obj[dest_room].allocate(student_data, seat_type)
