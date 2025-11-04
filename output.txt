@@ -1,0 +1,560 @@
+[93m[INFO][0m : Fetched 369 course records successfully.
+
+
+Course: 21ART601 | Type: CORE | Semester: 1 | Coordinator: KALPANA PANDIT
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21ART603 | Type: CORE | Semester: 1 | Coordinator: NAND KUMAR
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21ART604 | Type: CORE | Semester: 1 | Coordinator: TARUSH CHANDRA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21ART806 | Type: Program Elective | Semester: 1 | Coordinator: NIRUTI GUPTA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21ART809 | Type: Program Elective | Semester: 1 | Coordinator: POOJA NIGAM
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21BMT501 | Type: CORE | Semester: 1 | Coordinator: REETA SINGH
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21BMT502 | Type: CORE | Semester: 1 | Coordinator: SHRIDEV
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21BMT503 | Type: CORE | Semester: 1 | Coordinator: DIVESH KUMAR
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21BMT504 | Type: CORE | Semester: 1 | Coordinator: AAKANKSHA KATARIA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21BMT505 | Type: CORE | Semester: 1 | Coordinator: SHWETA SHARMA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21BMT506 | Type: CORE | Semester: 1 | Coordinator: MONICA SHARMA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21BMT507 | Type: CORE | Semester: 1 | Coordinator: DEEPAK VERMA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21BMT508 | Type: CORE | Semester: 1 | Coordinator: RITIKA MAHAJAN
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21BMT603 | Type: CORE | Semester: 3 | Coordinator: RITIKA MAHAJAN
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21BMT604 | Type: CORE | Semester: 3 | Coordinator: SUNDEEP KUMAR
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21BMT827 | Type: Program Elective | Semester: 3 | Coordinator: SUNDEEP KUMAR
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21BMT828 | Type: Program Elective | Semester: 3 | Coordinator: SHWETA SHARMA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21BMT829 | Type: Program Elective | Semester: 3 | Coordinator: SHRIDEV
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21BMT850 | Type: Program Elective | Semester: 3 | Coordinator: REETA SINGH
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21BMT851 | Type: Program Elective | Semester: 3 | Coordinator: AAKANKSHA KATARIA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21BMT873 | Type: Program Elective | Semester: 3 | Coordinator: SHWETA SHARMA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21BMT882 | Type: Program Elective | Semester: 3 | Coordinator: AYUSH GAUTAM
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21BMT902 | Type: Program Elective | Semester: 1 | Coordinator: DEEPAK VERMA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CET504 | Type: Program Elective | Semester: 1 | Coordinator: MAHESH KUMAR JAT
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CET521 | Type: CORE | Semester: 1 | Coordinator: NIVEDITA KAUL
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CET522 | Type: CORE | Semester: 1 | Coordinator: AKHILENDRA BHUSHAN GUPTA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CET524 | Type: CORE | Semester: 1 | Coordinator: URMILA BRIGHU
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CET541 | Type: CORE | Semester: 1 | Coordinator: M. K. SHRIMALI
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CET542 | Type: CORE | Semester: 1 | Coordinator: SUSHREE SUNAYANA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CET543 | Type: CORE | Semester: 1 | Coordinator: R. C. GUPTA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CET561 | Type: CORE | Semester: 1 | Coordinator: PAWAN KALLA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CET562 | Type: CORE | Semester: 1 | Coordinator: SIDDHARTH MEHNDIRATTA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CET563 | Type: CORE | Semester: 1 | Coordinator: ARUN GAUR
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CET581 | Type: CORE | Semester: 1 | Coordinator: AJAY SINGH JETHOO
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CET582 | Type: CORE | Semester: 1 | Coordinator: ROHIT GOYAL
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CET583 | Type: CORE | Semester: 1 | Coordinator: GUNWANT SHARMA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CET805 | Type: Program Elective | Semester: 1 | Coordinator: MAHENDER CHOUDHARY
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CET810 | Type: Program Elective | Semester: 1 | Coordinator: SANJAY MATHUR
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CET817 | Type: Program Elective | Semester: 1 | Coordinator: SUDHIR KUMAR
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CET833 | Type: Program Elective | Semester: 1 | Coordinator: ARUN GAUR
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CET838 | Type: Program Elective | Semester: 1 | Coordinator: JINENDRA KUMAR JAIN
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CET851 | Type: Program Elective | Semester: 1 | Coordinator: HIMANSHU ARORA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CST501 | Type: CORE | Semester: 1 | Coordinator: MUSHTAQ AHMED
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CST502 | Type: CORE | Semester: 1 | Coordinator: DINESH GOPALANI
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CST503 | Type: CORE | Semester: 1 | Coordinator: ASHISH KUMAR TRIPATHI
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CST521 | Type: CORE | Semester: 1 | Coordinator: MUSHTAQ AHMED
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CST522 | Type: CORE | Semester: 1 | Coordinator: RAMESH BABU BATTULA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CST523 | Type: CORE | Semester: 1 | Coordinator: MEENAKSHI TRIPATHI
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CST806 | Type: Program Elective | Semester: 1 | Coordinator: DEEPAK RANJAN NAYAK
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CST821 | Type: Program Elective | Semester: 1 | Coordinator: NEETA NAIN
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CST841 | Type: Program Elective | Semester: 1 | Coordinator: JYOTI GROVER
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CST849 | Type: Program Elective | Semester: 1 | Coordinator: DINESH KUMAR TYAGI
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CYT505 | Type: CORE | Semester: 1 | Coordinator: SUMIT KUMAR SONKAR
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CYT506 | Type: CORE | Semester: 1 | Coordinator: MANVIRI RANI
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CYT507 | Type: CORE | Semester: 1 | Coordinator: SUDHIR KASHYAP
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CYT508 | Type: CORE | Semester: 1 | Coordinator: PRADEEP KUMAR
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CYT811 | Type: Program Elective | Semester: 3 | Coordinator: BARUN JANA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CYT814 | Type: Program Elective | Semester: 3 | Coordinator: RAGINI GUPTA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21CYT827 | Type: Program Elective | Semester: 3 | Coordinator: BIMAN BANDYOPADHYAY
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21ECT502 | Type: CORE | Semester: 1 | Coordinator: M. M. SHARMA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21ECT504 | Type: CORE | Semester: 1 | Coordinator: RAJENDRA MITHARWAL
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21ECT521 | Type: CORE | Semester: 1 | Coordinator: RAKESH BAIRATHI
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21ECT522 | Type: CORE | Semester: 1 | Coordinator: SANJEEV AGRAWAL
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21ECT524 | Type: CORE | Semester: 1 | Coordinator: VINEET SAHULA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21ECT541 | Type: CORE | Semester: 1 | Coordinator: BHARAT CHOUDHARY
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21ECT542 | Type: CORE | Semester: 1 | Coordinator: D. BOOLCHANDANI
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21ECT543 | Type: CORE | Semester: 1 | Coordinator: MENKA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21ECT544 | Type: CORE | Semester: 1 | Coordinator: VINEET SAHULA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21ECT562 | Type: Program Elective | Semester: 7 | Coordinator: VIJAY JANYANI
+[91m[ERROR][0m : Student count mismatch! (Expected (MTE PDF): 60, Found (Enrollment): 61)
+
+Course: 21ECT805 | Type: Program Elective | Semester: 1 | Coordinator: VIJAY JANYANI
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21ECT814 | Type: Program Elective | Semester: 1 | Coordinator: ILA SHARMA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21ECT833 | Type: Program Elective | Semester: 1 | Coordinator: AMIT MAHESH JOSHI
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21ECT839 | Type: Program Elective | Semester: 1 | Coordinator: LAVA BHARGAVA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21EET501 | Type: CORE | Semester: 1 | Coordinator: KAPIL SHUKLA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21EET502 | Type: CORE | Semester: 1 | Coordinator: VINAY PRATAP SINGH
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21EET503 | Type: CORE | Semester: 1 | Coordinator: MAN MOHAN GARG
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21EET521 | Type: CORE | Semester: 1 | Coordinator: ANIL SWARNKAR
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21EET522 | Type: CORE | Semester: 1 | Coordinator: KUSUM VERMA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21EET523 | Type: CORE | Semester: 1 | Coordinator: MAN MOHAN GARG
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21EET541 | Type: CORE | Semester: 1 | Coordinator: SATISH SHARMA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21EET542 | Type: CORE | Semester: 1 | Coordinator: PRERNA JAIN
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21EET543 | Type: CORE | Semester: 1 | Coordinator: ROHIT BHAKAR
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21EET805 | Type: Program Elective | Semester: 1 | Coordinator: HEMANT KUMAR MEENA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21EET822 | Type: Program Elective | Semester: 1 | Coordinator: AKHILESH MATHUR
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21EET825 | Type: Program Elective | Semester: 1 | Coordinator: DIPTI SAXENA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21EET827 | Type: Program Elective | Semester: 1 | Coordinator: SANDEEP N
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21EET838 | Type: Program Elective | Semester: 1 | Coordinator: PRERNA JAIN
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21EET839 | Type: Program Elective | Semester: 1 | Coordinator: SATISH SHARMA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21ENT501 | Type: CORE | Semester: 1 | Coordinator: VIVEKANAND
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21ENT502 | Type: CORE | Semester: 1 | Coordinator: AMARTYA CHOWDHURY
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21ENT504 | Type: CORE | Semester: 1 | Coordinator: ANEESH PRABHAKAR
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21ENT802 | Type: Program Elective | Semester: 1 | Coordinator: JYOTIRMAY MATHUR
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21ENT806 | Type: Program Elective | Semester: 1 | Coordinator: KAPIL PAREEK
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21ENT809 | Type: Program Elective | Semester: 1 | Coordinator: PARUL MATHURIA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21ENT814 | Type: Program Elective | Semester: 1 | Coordinator: SUNANDA SINHA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21HST804 | Type: Open Elective | Semester: 1 | Coordinator: PREETI BHATT
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21HST805 | Type: Open Elective | Semester: 1 | Coordinator: NIDHI BANSAL
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21HST806 | Type: Open Elective | Semester: 1 | Coordinator: VIBHUTI SINGH SHEKHAWAT
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21HST808 | Type: Open Elective | Semester: 1 | Coordinator: VIBHUTI SINGH SHEKHAWAT
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21HST810 | Type: Open Elective | Semester: 1 | Coordinator: MANJU SINGH
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21HST813 | Type: Open Elective | Semester: 1 | Coordinator: VIBHUTI SINGH SHEKHAWAT
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21HST901 | Type: Open Elective | Semester: 1 | Coordinator: MANJU SINGH
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21MAT502 | Type: CORE | Semester: 1 | Coordinator: VARUN JINDAL
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21MAT503 | Type: CORE | Semester: 1 | Coordinator: VARUN JINDAL
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21MAT504 | Type: CORE | Semester: 1 | Coordinator: RITU AGARWAL
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21MAT505 | Type: CORE | Semester: 1 | Coordinator: ANUBHA JINDAL
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21MAT506 | Type: CORE | Semester: 1 | Coordinator: KUSHAL SHARMA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21MAT507 | Type: CORE | Semester: 1 | Coordinator: SANTOSH CHAUDHARY
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21MET501 | Type: CORE | Semester: 1 | Coordinator: T. C. GUPTA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21MET502 | Type: CORE | Semester: 1 | Coordinator: PREETI GULIA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21MET503 | Type: CORE | Semester: 1 | Coordinator: GULAB PAMNANI
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21MET521 | Type: CORE | Semester: 1 | Coordinator: Rajeev Agarwal
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21MET522 | Type: CORE | Semester: 1 | Coordinator: RAKESH JAIN
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21MET523 | Type: CORE | Semester: 1 | Coordinator: MAKKHAN LAL MEENA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21MET561 | Type: CORE | Semester: 1 | Coordinator: AMIT ARORA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21MET562 | Type: CORE | Semester: 1 | Coordinator: MANISH KUMAR
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21MET563 | Type: CORE | Semester: 1 | Coordinator: RAM DAYAL
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21MET564 | Type: CORE | Semester: 1 | Coordinator: NIRUPAM ROHATGI
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21MET565 | Type: CORE | Semester: 1 | Coordinator: G. D. AGARWAL
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21MET807 | Type: Program Elective | Semester: 1 | Coordinator: NARESH KUMAR RAGHUWANSHI
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21MET809 | Type: Program Elective | Semester: 1 | Coordinator: Dinesh Kumar
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21MET814 | Type: Program Elective | Semester: 1 | Coordinator: MURARI LAL MITTAL
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21MET816 | Type: Program Elective | Semester: 1 | Coordinator: AMAR PATNAIK
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21MET821 | Type: Program Elective | Semester: 1 | Coordinator: VINEET KUMAR SAXENA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21MET901 | Type: Open Elective | Semester: 1 | Coordinator: AMAR PATNAIK
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21MET902 | Type: Open Elective | Semester: 1 | Coordinator: MURARI LAL MITTAL
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21MTT804 | Type: Program Elective | Semester: 1 | Coordinator: SREEKUMAR VADAKKE MADAM
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21PHT501 | Type: CORE | Semester: 1 | Coordinator: AKHILESH NAUTIYAL
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21PHT502 | Type: CORE | Semester: 1 | Coordinator: ANIRBAN DUTTA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21PHT504 | Type: CORE | Semester: 1 | Coordinator: ANEES AHMED
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 21PHT505 | Type: CORE | Semester: 1 | Coordinator: KAMAKSHI PANDEY
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 22BMT921 | Type: CORE | Semester: 5 | Coordinator: AYUSH GAUTAM
+[91m[ERROR][0m : Student count mismatch! (Expected (MTE PDF): 110, Found (Enrollment): 113)
+
+Course: 22BMT921 | Type: CORE | Semester: 3 | Coordinator: SANDIPAN KARMAKAR
+[91m[ERROR][0m : Student count mismatch! (Expected (MTE PDF): 110, Found (Enrollment): 118)
+
+Course: 22BMT922 | Type: CORE | Semester: 1 | Coordinator: SHRIDEV DEVJI
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 22CET102 | Type: CORE | Semester: 1 | Coordinator: NEHA SHRIVASTAVA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 22CET102 | Type: INSTITUTE CORE | Semester: 1 | Coordinator: RUCHI SHARMA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 22CET103 | Type: CORE | Semester: 1 | Coordinator: LEELAMBAR SINGH
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 22CET109 | Type: CORE | Semester: 1 | Coordinator: ANOOP IRANNA SHIRKOL
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 22CET112 | Type: INSTITUTE CORE | Semester: 1 | Coordinator: DHIRAJ RAJ
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 22CHT101 | Type: CORE | Semester: 1 | Coordinator: SATYENDRA PRASAD CHAURASIA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 22CHT102 | Type: CORE | Semester: 1 | Coordinator: NEETU KUMARI
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 22CST101 | Type: INSTITUTE CORE | Semester: 1 | Coordinator: SATYENDRA SINGH CHOUHAN
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 22CST103 | Type: CORE | Semester: 1 | Coordinator: YOGESH KUMAR MEENA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 22CST104 | Type: CORE | Semester: 1 | Coordinator: MAHIPAL PRITHVISINH JADEJA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 22CYT101 | Type: INSTITUTE CORE | Semester: 1 | Coordinator: RAHUL
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 22ECT102 | Type: CORE | Semester: 1 | Coordinator: DEEPAK BHARTI
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 22ECT108 | Type: INSTITUTE CORE | Semester: 1 | Coordinator: RAVI KUMAR MADDILA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 22ECT109 | Type: CORE | Semester: 1 | Coordinator: KAMALESH KUMAR SHARMA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 22EET107 | Type: INSTITUTE CORE | Semester: 1 | Coordinator: SURENDER HANS
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 22EET108 | Type: CORE | Semester: 1 | Coordinator: MUKESH KUMAR SHAH
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 22HST101 | Type: INSTITUTE CORE | Semester: 1 | Coordinator: NIDHI SHARMA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 22HST106 | Type: INSTITUTE CORE | Semester: 1 | Coordinator: NIRAJA SARASWAT
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 22MAT101 | Type: INSTITUTE CORE | Semester: 1 | Coordinator: OM P. SUTHAR
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 22MET101 | Type: INSTITUTE CORE | Semester: 1 | Coordinator: YASHWANT KOLI
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 22MET103 | Type: CORE | Semester: 1 | Coordinator: GUNJAN SONI
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 22MET104 | Type: CORE | Semester: 1 | Coordinator: TAPAS BAJPAI
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 22MTT101 | Type: CORE | Semester: 1 | Coordinator: DEEPANKAR PANDA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 22MTT102 | Type: CORE | Semester: 1 | Coordinator: AJAYA KUMAR PRADHAN
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 22PHT101 | Type: INSTITUTE CORE | Semester: 1 | Coordinator: DEBASISH SARKAR
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 24AIT101 | Type: CORE | Semester: 1 | Coordinator: KUSHAL SHARMA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 24AIT102 | Type: CORE | Semester: 1 | Coordinator: HRUSHIKESH MADHUSUDAN GADE
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 24MET401 | Type: Honors | Semester: 7 | Coordinator: Gunjan Soni
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 25CET801 | Type: Program Elective | Semester: 1 | Coordinator: S. D. BHARTI
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 25CET803 | Type: Program Elective | Semester: 1 | Coordinator: NISHANT ROY
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 25CET804 | Type: Program Elective | Semester: 1 | Coordinator: JAGAJYOTI PANDA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 25EQT501 | Type: CORE | Semester: 1 | Coordinator: T. K. DATTA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 25EQT502 | Type: CORE | Semester: 2 | Coordinator: NISHANT ROY
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 25EQT503 | Type: CORE | Semester: 3 | Coordinator: S. D. BHARTI
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 25EQT504 | Type: CORE | Semester: 4 | Coordinator: JAGAJYOTI PANDA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 25MTT542 | Type: CORE | Semester: 1 | Coordinator: RANDHIR KUMAR SINGH
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 25MTT543 | Type: CORE | Semester: 1 | Coordinator: SWATI SHARMA
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 25MTT545 | Type: CORE | Semester: 1 | Coordinator: RAJESH KUMAR RAI
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: 25MTT806 | Type: Program Elective | Semester: 1 | Coordinator: KUNAL JAYPRAKASH BORSE
+[91m[ERROR][0m : No classrooms assigned for course
+
+Course: ART501 | Type: CORE | Semester: 9 | Coordinator: GIREENDRA KUMAR
+[38;5;208m[WARNING][0m : Invalid Course ID format 'ART501'. Expected pattern: ddcccddd (e.g., 22CSE101)
+
+Course: ART503 | Type: CORE | Semester: 9 | Coordinator: NIRUTI GUPTA
+[38;5;208m[WARNING][0m : Invalid Course ID format 'ART503'. Expected pattern: ddcccddd (e.g., 22CSE101)
+
+Course: ART505 | Type: Program Elective | Semester: 9 | Coordinator: RINA SURANA
+[38;5;208m[WARNING][0m : Invalid Course ID format 'ART505'. Expected pattern: ddcccddd (e.g., 22CSE101)
+
+Course: ART511 | Type: Program Elective | Semester: 9 | Coordinator: MEENU VARSHNEY
+[38;5;208m[WARNING][0m : Invalid Course ID format 'ART511'. Expected pattern: ddcccddd (e.g., 22CSE101)
+
+Course: CET432 | Type: Open Elective | Semester: 7 | Coordinator: ABHISEKH SAHA
+[38;5;208m[WARNING][0m : Invalid Course ID format 'CET432'. Expected pattern: ddcccddd (e.g., 22CSE101)
+
+Course: CHT321 | Type: Open Elective | Semester: 7 | Coordinator: BIKASHBINDU DAS
+[38;5;208m[WARNING][0m : Invalid Course ID format 'CHT321'. Expected pattern: ddcccddd (e.g., 22CSE101)
+
+Course: CHT415 | Type: Open Elective | Semester: 7 | Coordinator: LOVJEET SINGH
+[38;5;208m[WARNING][0m : Invalid Course ID format 'CHT415'. Expected pattern: ddcccddd (e.g., 22CSE101)
+
+Course: HST407 | Type: Open Elective | Semester: 7 | Coordinator: VIBHUTI SINGH SHEKHAWAT
+[38;5;208m[WARNING][0m : Invalid Course ID format 'HST407'. Expected pattern: ddcccddd (e.g., 22CSE101)
+
+Course: HST408 | Type: Open Elective | Semester: 7 | Coordinator: NIRAJA SARASWAT
+[38;5;208m[WARNING][0m : Invalid Course ID format 'HST408'. Expected pattern: ddcccddd (e.g., 22CSE101)
+
+Course: MAT404 | Type: Open Elective | Semester: 7 | Coordinator: RITU AGARWAL
+[38;5;208m[WARNING][0m : Invalid Course ID format 'MAT404'. Expected pattern: ddcccddd (e.g., 22CSE101)
+
+Course: MAT416 | Type: Open Elective | Semester: 7 | Coordinator: OM P. SUTHAR
+[38;5;208m[WARNING][0m : Invalid Course ID format 'MAT416'. Expected pattern: ddcccddd (e.g., 22CSE101)
+
+Course: PHT415 | Type: Open Elective | Semester: 7 | Coordinator: K VENKATARATNAM KAMMA
+[38;5;208m[WARNING][0m : Invalid Course ID format 'PHT415'. Expected pattern: ddcccddd (e.g., 22CSE101)
+
+Course: RET658 | Type: Open Elective | Semester: 7 | Coordinator: AMARTYA CHOWDHURY
+[38;5;208m[WARNING][0m : Invalid Course ID format 'RET658'. Expected pattern: ddcccddd (e.g., 22CSE101)

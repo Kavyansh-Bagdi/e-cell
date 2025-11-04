@@ -1,119 +1,176 @@
-import os
 import sqlite3
-import pandas as pd
+import re
 
-try:
-    from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
-    from reportlab.lib import colors
-    from reportlab.lib.pagesizes import A4, landscape
-    from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-except ImportError as e:
-    raise RuntimeError(
-        "Missing dependency 'reportlab'. Fix by activating your venv and installing it:\n"
-        "  source .venv/bin/activate\n"
-        "  pip install reportlab\n"
-    ) from e
+db_path = "data.db"
 
-# ---------- Paths ----------
-DB_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data.db")
-OUTPUT_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "output")
-os.makedirs(OUTPUT_DIR, exist_ok=True)
-OUTPUT_PDF = os.path.join(OUTPUT_DIR, "warning.pdf")
+# ===== Colors =====
+ORANGE = "\033[38;5;208m"
+YELLOW = "\033[93m"
+RED = "\033[91m"
+RESET = "\033[0m"
 
+# ===== Logger functions =====
+def warning(message):
+    print(f"{ORANGE}[WARNING]{RESET} : {message}")
 
-# ---------- Fetch discrepancies ----------
-def fetch_discrepancies(db_path: str) -> pd.DataFrame:
-    conn = sqlite3.connect(db_path)
-    query = """
-    SELECT
-        c.CourseName AS CourseName,
-        c.CourseCode AS CourseCode,
-        c.CoordinatorName AS CoordinatorName,
-        COALESCE(c.ReviewStd, 0) AS ReviewStd,
-        COALESCE(cd.No_Student, 0) AS No_Student
-    FROM Courses c
-    JOIN CourseDept cd
-      ON c.CourseCode = cd.CourseCode
-     AND c.CourseType = cd.CourseType
-     AND c.CoordinatorName = cd.CoordinatorName
-    -- semester comparison removed intentionally
-    ORDER BY c.CourseCode;
-    """
-    df = pd.read_sql_query(query, conn)
-    conn.close()
+def info(message):
+    print(f"{YELLOW}[INFO]{RESET} : {message}")
 
-    if df.empty:
-        return df
-
-    # Group by CourseName, CourseCode, CoordinatorName and sum No_Student
-    grouped = (
-        df.groupby(["CourseName", "CourseCode", "CoordinatorName"], as_index=False)
-        .agg({"ReviewStd": "max", "No_Student": "sum"})
-    )
-
-    # Keep only mismatches
-    discrepancies = grouped[grouped["ReviewStd"] != grouped["No_Student"]].reset_index(drop=True)
-    return discrepancies
+def error(message):
+    print(f"{RED}[ERROR]{RESET} : {message}")
 
 
-# ---------- Build landscape PDF ----------
-def build_pdf(df: pd.DataFrame, out_pdf: str):
-    # Use landscape A4
-    doc = SimpleDocTemplate(
-        out_pdf,
-        pagesize=landscape(A4),
-        leftMargin=36,
-        rightMargin=36,
-        topMargin=36,
-        bottomMargin=36
-    )
+# ===== Verify Enrolled Students =====
+def verify_no_students(cId, ctype, sem, coord):
+    connection = sqlite3.connect(db_path)
+    cursor = connection.cursor()
+    try:
+        cursor.execute("""
+            SELECT ReviewStd FROM Courses 
+            WHERE CourseCode = ? AND Semester = ? AND CourseType = ? AND CoordinatorName = ?
+        """, (cId, sem, ctype, coord))
+        review_student_cnt = cursor.fetchone()
+        review_student_cnt = review_student_cnt[0] if review_student_cnt else 0
 
-    styles = getSampleStyleSheet()
-    title_style = ParagraphStyle("title", parent=styles["Heading1"], alignment=1, fontSize=14)
-    normal_center = ParagraphStyle("center", parent=styles["Normal"], alignment=1)
+        cursor.execute("""
+            SELECT COUNT(*) FROM Enrollments 
+            WHERE CourseCode = ? AND Semester = ? AND CourseType = ? AND CoordinatorName = ?
+        """, (cId, sem, ctype, coord))
+        student_found = cursor.fetchone()
+        student_found = student_found[0] if student_found else 0
 
-    elements = []
-    elements.append(Paragraph("ReviewStd vs Actual Enrolled Students — Discrepancy Report", title_style))
-    elements.append(Spacer(1, 10))
+        if review_student_cnt < student_found:
+            error(f"Student count mismatch! (Expected (MTE PDF): {review_student_cnt}, Found (Enrollment): {student_found})")
+            return False
+        return True
 
-    # If no discrepancies
-    if df.empty:
-        elements.append(Paragraph("No discrepancies found. ReviewStd matches actual enrolled counts.", normal_center))
-        doc.build(elements)
-        return
-
-    # Table header + rows
-    data = [["Course Name", "Course Code", "Coordinator", "ReviewStd", "Total (No_Student)"]]
-    for _, row in df.iterrows():
-        data.append([
-            row["CourseName"] or "",
-            row["CourseCode"] or "",
-            row["CoordinatorName"] or "",
-            int(row["ReviewStd"]),
-            int(row["No_Student"])
-        ])
-
-    # Build table for landscape layout
-    table = Table(data, repeatRows=1, hAlign="LEFT", colWidths=[250, 100, 200, 80, 100])
-    table.setStyle(TableStyle([
-        ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#d3d3d3")),
-        ("TEXTCOLOR", (0, 0), (-1, 0), colors.black),
-        ("GRID", (0, 0), (-1, -1), 0.5, colors.black),
-        ("ALIGN", (3, 1), (-1, -1), "CENTER"),
-        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
-        ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
-    ]))
-
-    elements.append(table)
-    doc.build(elements)
+    except Exception as e:
+        error(f"{e}")
+        return False
+    finally:
+        connection.close()
 
 
-# ---------- Main ----------
-def main():
-    df = fetch_discrepancies(DB_PATH)
-    build_pdf(df, OUTPUT_PDF)
-    print(f"Landscape warning PDF generated: {OUTPUT_PDF} (rows: {len(df)})")
+# ===== Verify Classrooms =====
+def verify_no_classrooms(cId, ctype, sem, coord):
+    connection = sqlite3.connect(db_path)
+    cursor = connection.cursor()
+    try:
+        cursor.execute("""
+            SELECT Room1, Room2, Room3, Room4 FROM ExamSchedule 
+            WHERE CourseCode = ? AND Semester = ? AND CourseType = ? AND CoordinatorName = ?
+        """, (cId, sem, ctype, coord))
+        result = cursor.fetchone()
+        classrooms = [room for room in result if room] if result else []
+
+        if len(classrooms) == 0:
+            error(f"No classrooms assigned for course")
+            return False
+        return True
+
+    except Exception as e:
+        error(f"{e}")
+        return False
+    finally:
+        connection.close()
 
 
-if __name__ == "__main__":
-    main()
+# ===== Verify Course Key =====
+def verify_course_key(cId, ctype, sem, coord):
+    valid_types = [
+        "CORE", "PROGRAM ELECTIVE", "OPEN ELECTIVE", "INSTITUTE CORE", "HONORS"
+    ]
+
+    valid = True
+
+    if not re.fullmatch(r"\d{2}[A-Za-z]{3}\d{3}", cId):
+        warning(f"Invalid Course ID format '{cId}'. Expected pattern: ddcccddd (e.g., 22CSE101)")
+        valid = False
+
+    if ctype.strip().upper() not in [t.upper() for t in valid_types]:
+        warning(f"Invalid Course Type '{ctype}'. Must be one of: {', '.join(valid_types)}")
+        valid = False
+
+    if not isinstance(sem, int):
+        warning(f"Invalid Semester '{sem}'. Must be an integer.")
+        valid = False
+
+    if not coord or not coord.strip():
+        warning("Coordinator name cannot be empty.")
+        valid = False
+
+    return valid
+
+
+# ===== Verify all Courses =====
+def verify():
+    connection = sqlite3.connect(db_path)
+    cursor = connection.cursor()
+
+    error_count = 0 
+
+    try:
+        cursor.execute("""
+            SELECT CourseCode, CourseType, Semester, CoordinatorName FROM Courses;
+        """)
+        courses = cursor.fetchall()
+        info(f"Fetched {len(courses)} course records successfully.\n")
+
+        for cId, ctype, sem, coord in courses:
+            failed = False
+            print_buffer = []
+
+            # Capture log messages
+            def capture_warning(msg): print_buffer.append((warning, msg))
+            def capture_error(msg): print_buffer.append((error, msg))
+            def capture_info(msg): print_buffer.append((info, msg))
+
+            globals_backup = {
+                "warning": warning,
+                "error": error,
+                "info": info
+            }
+            globals().update({
+                "warning": capture_warning,
+                "error": capture_error,
+                "info": capture_info
+            })
+
+            # Run all verification checks
+            if not verify_course_key(cId, ctype, sem, coord):
+                failed = True
+            if not verify_no_students(cId, ctype, sem, coord):
+                failed = True
+            if not verify_no_classrooms(cId, ctype, sem, coord):
+                failed = True
+
+            # Restore logging
+            globals().update(globals_backup)
+
+            # Print only failed courses
+            if failed:
+                error_count += 1
+                print()
+                print(f"Course: {cId} | Type: {ctype} | Semester: {sem} | Coordinator: {coord}")
+                for func, msg in print_buffer:
+                    func(msg)
+
+        print("-" * 100)
+        if error_count > 0:
+            error(f"Verification completed with {error_count} issue(s) found.")
+            return False
+        else:
+            info("All courses verified successfully. No issues found.")
+            return True
+
+    except Exception as e:
+        error(f"{e}")
+        return False
+
+    finally:
+        connection.close()
+
+
+# ===== Entry Point =====
+if __name__ == '__main__':
+    verify()
